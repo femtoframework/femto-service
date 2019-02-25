@@ -55,7 +55,6 @@ public interface RmiModule
      *              pending or in-progress calls; if false, only unexports the object
      *              if there are no pending or in-progress calls
      * @return true if operation is successful, false otherwise
-     * @since 1.2
      */
     boolean unexportObject(Remote obj, boolean force);
 

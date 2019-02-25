@@ -1,0 +1,22 @@
+_namespace: cube
+_kind: system
+_verson: cube/v7
+name: helloworld
+platform: STATIC
+servers:
+  - _kind: server
+    type: frontend
+    port: 9168
+    connections:
+      - _kind: connection
+        backend: backend
+        count: 2
+  - _kind: server
+    type: backend
+    port: 9268
+hosts:
+  - name: localhost
+    servers:
+      - frontend
+      - backend
+

@@ -13,10 +13,12 @@
 
   <groupId>org.femtoframework.service</groupId>
   <artifactId>femto-service</artifactId>
+  <packaging>pom</packaging>
   <version>7.0.0-SNAPSHOT</version>
 
   <modules>
     <module>service-spi</module>
+    <module>cube</module>
   </modules>
 
   <dependencyManagement>
