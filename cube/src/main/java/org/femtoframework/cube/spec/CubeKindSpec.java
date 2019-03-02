@@ -1,10 +1,11 @@
-package org.femtoframework.cube.spec.ext;
+package org.femtoframework.cube.spec;
 
 import org.femtoframework.coin.exception.SpecSyntaxException;
 import org.femtoframework.coin.spec.*;
 import org.femtoframework.coin.spec.element.*;
 import org.femtoframework.cube.CubeConstants;
-import org.femtoframework.cube.spec.CubeKind;
+import org.femtoframework.cube.ext.CubeAppServer;
+import org.femtoframework.cube.ext.CubeTcpEndpoint;
 
 import java.util.Map;
 
@@ -39,16 +40,20 @@ public class CubeKindSpec implements KindSpec {
         String kind = ModelElement.getString(map, SpecConstants._KIND, null);
         BeanElement beanElement = new BeanElement(map);
         if (CubeConstants.SYSTEM.equals(kind)) {
-            beanElement.setTypeClass(SystemDef.class);
+            beanElement.setNamespace(CubeConstants.CUBE);
+            beanElement.setName(CubeConstants.SYSTEM);
+            beanElement.setTypeClass(SystemSpec.class);
         }
-        else if (CubeConstants.HOST.equals(kind)) {
-            beanElement.setTypeClass(HostDef.class);
+        else if (CubeConstants.APP_SERVER.equals(kind)) {
+            beanElement.setNamespace(CubeConstants.CUBE);
+            beanElement.setName(CubeConstants.APP_SERVER);
+            beanElement.setTypeClass(CubeAppServer.class);
         }
-        else if (CubeConstants.BACKEND.equals(kind)) {
-            beanElement.setTypeClass(ServerDef.class);
-        }
-        else if (CubeConstants.CONNECTION.equals(kind)) {
-            beanElement.setTypeClass(ConnectionDef.class);
+        else if (CubeConstants.TCP_ENDPOINT.equals(kind)) {
+            beanElement.setNamespace(CubeConstants.CUBE);
+            beanElement.setName(CubeConstants.TCP_ENDPOINT);
+            beanElement.setTypeClass(CubeTcpEndpoint.class);
+            beanElement.setBelongsTo("cube:app_server#addEndpoint");
         }
         else {
             throw new SpecSyntaxException("No such kind:" + kind + " in version(" + getVersion() + ") ");

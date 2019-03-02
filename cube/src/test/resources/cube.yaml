@@ -1,22 +1,15 @@
-_namespace: cube
 _kind: system
-_verson: cube/v7
-name: helloworld
+_version: cube/v7
 platform: STATIC
 servers:
-  - _kind: server
-    type: frontend
-    port: 9168
-    connections:
-      - _kind: connection
-        backend: backend
-        count: 2
-  - _kind: server
-    type: backend
-    port: 9268
+- type: frontend
+  port: 9168
+  connections:
+  - "gmpp://#backend/?count=2"
+- type: backend
+  port: 9268
 hosts:
-  - name: localhost
-    servers:
-      - frontend
-      - backend
-
+- name: localhost
+  servers:
+  - frontend
+  - backend

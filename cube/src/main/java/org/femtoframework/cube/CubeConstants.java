@@ -12,9 +12,8 @@ public interface CubeConstants
     String SPEC_VERSION = "cube/v7";
     String SYSTEM = "system";
     String HOST = "host";
+    String SERVER = "server";
     String BACKEND = "backend";
-    String CONNECTION = "connection";
-    String COUNT = "count";
     String APP_SERVER = "app_server";
     String TCP_ENDPOINT = "tcp_endpoint";
 

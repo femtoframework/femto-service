@@ -11,7 +11,6 @@ import org.femtoframework.net.socket.bifurcation.BifurcatedEndpoint;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.concurrent.Executor;
 
 /**
  * Cube TCP接入点
@@ -35,7 +34,7 @@ public class CubeTcpEndpoint extends BifurcatedEndpoint
     /**
      * 初始化实现
      */
-    public void _doInitialize() {
+    public void _doInit() {
         setCheckLaunched(true);
 
         //Try the port
@@ -83,7 +82,7 @@ public class CubeTcpEndpoint extends BifurcatedEndpoint
             setAllow(AddressAllowBean.getLocalNetwork());
         }
         setSocketHandlerFactory(new CubeSocketHandlerFactory());
-        super._doInitialize();
+        super._doInit();
     }
 
 
@@ -128,16 +127,6 @@ public class CubeTcpEndpoint extends BifurcatedEndpoint
                 log.debug("Socket connection is not allow :" + socket);
             }
         }
-    }
-
-    /**
-     * 设置线程执行器
-     *
-     * @param executor 线程执行器
-     */
-//    @ThreadPoolMeta (maxThreads = 8, minSpareThreads = 2, maxSpareThreads = 4, incThreads = 2)
-    public void setExecutor(Executor executor) {
-        super.setExecutor(executor);
     }
 
     @Override

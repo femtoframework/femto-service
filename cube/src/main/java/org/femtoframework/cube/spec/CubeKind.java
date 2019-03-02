@@ -5,9 +5,7 @@ import org.femtoframework.coin.spec.Kind;
 public enum CubeKind implements Kind {
     SYSTEM,
 
-    SERVER,
+    APP_SERVER,
 
-    HOST,
-
-    CONNECTION
+    TCP_ENDPOINT;
 }

@@ -1,8 +1,5 @@
-_namespace: cube
-_kind: bean
-_verson: v1
-_type: org.femtoframework.cube.ext.CubeTcpEndpoint
-_name: tcp_endpoint
+_version: cube/v7
+_kind: tcp_endpoint
 _belongsTo: cube:app_server#addEndpoint
 executor:
   _kind: bean
@@ -14,5 +11,5 @@ executor:
   incThreads: 2
 
 ---
-_type: org.femtoframework.cube.ext.CubeAppServer
-_name: app_server
+_version: cube/v7
+_kind: app_server
