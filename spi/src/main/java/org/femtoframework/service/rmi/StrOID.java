@@ -39,8 +39,6 @@ public class StrOID implements ObjID {
     /**
      * Two object identifiers are considered equal if they have the
      * same contents.
-     *
-     * @since JDK1.1
      */
     public boolean equals(Object obj) {
         if (obj instanceof StrOID) {
@@ -69,7 +67,7 @@ public class StrOID implements ObjID {
      * @throws IOException    当发生I/O异常时
      * @throws ClassNotFoundException
      */
-    public void readFrom(InputStream ois) throws IOException, ClassNotFoundException {
+    public void readFrom(InputStream ois) throws IOException {
         uri = CodecUtil.readSingle(ois);
     }
 
@@ -83,7 +81,7 @@ public class StrOID implements ObjID {
     }
 
     @Override
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException {
         uri = in.readUTF();
     }
 }
