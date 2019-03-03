@@ -22,8 +22,6 @@ public interface ServerRef
      * @return the stub for the remote object
      * @throws RemoteException if an exception occurs attempting
      *                                  to export the object (e.g., stub class could not be found)
-     * @since JDK1.1
      */
-    Remote exportObject(Object obj, Object data)
-        throws RemoteException;
+    Remote exportObject(Object obj, Object data) throws RemoteException;
 }

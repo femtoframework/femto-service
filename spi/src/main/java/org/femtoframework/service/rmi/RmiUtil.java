@@ -27,15 +27,15 @@ public class RmiUtil {
         return module.isExported(obj);
     }
 
-    /**
-     * 根据给定的类转载器返回响应的远程装载器
-     *
-     * @param loader 类装载器
-     * @return 返回远程装载器
-     */
-    public static RemoteLoader getRemoteLoader(ClassLoader loader) {
-        return module.getRemoteLoader(loader);
-    }
+//    /**
+//     * 根据给定的类转载器返回响应的远程装载器
+//     *
+//     * @param loader 类装载器
+//     * @return 返回远程装载器
+//     */
+//    public static RemoteLoader getRemoteLoader(ClassLoader loader) {
+//        return module.getRemoteLoader(loader);
+//    }
 
     /**
      * Export the remote object to make it available to receive incoming calls,

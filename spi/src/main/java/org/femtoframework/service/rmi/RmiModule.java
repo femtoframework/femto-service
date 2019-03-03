@@ -11,13 +11,13 @@ import java.rmi.Remote;
  */
 public interface RmiModule
 {
-    /**
-     * 根据给定的类转载器返回响应的远程装载器
-     *
-     * @param loader 类装载器
-     * @return Remote Class Loader
-     */
-    RemoteLoader getRemoteLoader(ClassLoader loader);
+//    /**
+//     * 根据给定的类转载器返回响应的远程装载器
+//     *
+//     * @param loader 类装载器
+//     * @return Remote Class Loader
+//     */
+//    RemoteLoader getRemoteLoader(ClassLoader loader);
 
     /**
      * 判断对象是否已经导出
