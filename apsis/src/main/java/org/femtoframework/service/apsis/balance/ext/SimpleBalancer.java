@@ -7,6 +7,7 @@ import org.femtoframework.service.StatefulElement;
 import org.femtoframework.service.apsis.*;
 import org.femtoframework.service.apsis.balance.BalanceSessionGenerator;
 import org.femtoframework.service.apsis.client.MultiClient;
+import org.femtoframework.service.apsis.naming.ApsisName;
 import org.femtoframework.service.balance.BalanceSession;
 import org.femtoframework.service.client.ClientList;
 import org.femtoframework.service.client.ClientUtil;

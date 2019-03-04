@@ -1,10 +1,8 @@
 package org.femtoframework.service.apsis.balance.rmi;
 
-import org.bolango.apsis.balance.BalanceUtil;
-import org.bolango.coin.DeploymentContext;
-import org.bolango.coin.remote.RemoteGenerator;
-import org.bolango.log.LogUtil;
-import org.bolango.log.Logger;
+import org.femtoframework.service.apsis.balance.BalanceUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 负载均衡远程引用产生器
@@ -32,7 +30,7 @@ public class BalanceRemoteGenerator implements RemoteGenerator
         return instance;
     }
 
-    private Logger log = LogUtil.getLogger("apsis/balance/remote/generator");
+    private Logger log = LoggerFactory.getLogger("apsis/balance/remote/generator");
 
     /**
      * 根据接口定义和远程URI来产生远程对象
@@ -43,7 +41,7 @@ public class BalanceRemoteGenerator implements RemoteGenerator
      * @param uri          对象定位
      * @return 产生的对象
      */
-    public Object generate(String expectedType, DeploymentContext context, String[] interfaces, String uri)
+    public Object generate(String expectedType, Component context, String[] interfaces, String uri)
     {
         Object obj = null;
         try {
