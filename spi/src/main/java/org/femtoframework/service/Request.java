@@ -25,30 +25,11 @@ public interface Request extends Arguments, SessionContext
     int getRemotePort();
 
     /**
-     * 返回当前Application
-     *
-     * @return [Application] 当前应用
-     * @see Application
-     */
-    Application getApplication();
-
-    /**
      * 返回当前请求对应的Subject，如果请求中没有，那么检查相应的Session中是否存在
      *
      * @return 当前的Subject
      */
     Subject getSubject();
-
-    /**
-     * 返回当前用户Session
-     *
-     * @param scope  范围 <br>
-     * @param create 如果<code>true</code>，当<code>session==null</code>时建会话
-     * @param check  是否检查Session是否超时
-     * @return [Session] 当前用户会话
-     */
-    Session getSession(Scope scope, boolean create, boolean check)
-        throws SessionTimeoutException;
 
     /**
      * 返回当前用户Session

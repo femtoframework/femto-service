@@ -17,5 +17,4 @@ import java.lang.annotation.*;
 @Documented
 public @interface SessionComponent
 {
-    Scope scope() default Scope.SERVER;
 }

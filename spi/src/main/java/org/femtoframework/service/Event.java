@@ -31,17 +31,6 @@ public interface Event extends Arguments, SessionContext, EventCallbackable
     /**
      * 返回当前用户Session
      *
-     * @param scope  范围 <br>
-     * @param create 如果<code>true</code>，当<code>session==null</code>时建会话
-     * @param check  是否检查Session是否超时
-     * @return [Session] 当前用户会话
-     */
-    Session getSession(Scope scope, boolean create, boolean check)
-        throws SessionTimeoutException;
-
-    /**
-     * 返回当前用户Session
-     *
      * @param create 如果<code>true</code>，当<code>session==null</code>时建会话
      * @param check  是否检查Session是否超时
      * @return [Session] 当前用户会话

@@ -1,22 +1,16 @@
 package org.femtoframework.service.apsis.balance;
 
-import org.bolango.apsis.ApsisSession;
-import org.bolango.apsis.ApsisSessionID;
-import org.bolango.frame.Session;
-import org.bolango.frame.SessionID;
-import org.bolango.frame.balance.BalanceSession;
-import org.bolango.security.auth.AuthUtil;
-import org.bolango.util.AbstractParameters;
-import org.bolango.util.CollectionUtil;
+import org.femtoframework.parameters.Parameters;
+import org.femtoframework.service.SessionID;
+import org.femtoframework.service.apsis.ApsisSessionID;
+import org.femtoframework.service.balance.BalanceSession;
 
 import javax.security.auth.Subject;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Apsis 负载均衡会话
@@ -24,8 +18,8 @@ import java.util.Map;
  * @author fengyun
  * @version 1.00 2005-11-17 10:17:45
  */
-public class ApsisBalanceSession extends AbstractParameters
-    implements BalanceSession, Externalizable, ApsisSession {
+public class ApsisBalanceSession extends AbstractMap<String, Object>
+    implements BalanceSession, Externalizable, Parameters<Object> {
     private Map<String, ApsisSessionID> map = new HashMap<String, ApsisSessionID>(8);
 
     private transient Subject subject;
@@ -62,7 +56,7 @@ public class ApsisBalanceSession extends AbstractParameters
      * @return 参数名称枚举
      */
     public Iterator<String> getNames() {
-        return CollectionUtil.EMPTY_ITERATOR;
+        return Collections.emptyIterator();
     }
 
     /**
@@ -212,15 +206,6 @@ public class ApsisBalanceSession extends AbstractParameters
     }
 
     /**
-     * 返回更高一层的会话，如果是服务器会话，那么返回null，如果是服务会话，那么返回服务器会话
-     *
-     * @return 返回更高一层的会话
-     */
-    public Session getParent() {
-        return null;
-    }
-
-    /**
      * 返回当前会话对应的Subject
      *
      * @return 当前的Subject
@@ -239,27 +224,6 @@ public class ApsisBalanceSession extends AbstractParameters
      */
     public void setSubject(Subject subject) {
         this.subject = subject;
-    }
-
-    /**
-     * 根据服务名称返回相应的会话，服务会话不可以拥有自己单独的
-     *
-     * @param serviceName 服务名称
-     * @return 服务会话
-     */
-    public Session getServiceSession(String serviceName) {
-        return null;
-    }
-
-    /**
-     * 根据服务名称返回相应的会话，服务会话不可以拥有自己单独的
-     *
-     * @param serviceName 服务名称
-     * @param create      如果服务不存在，是否创建相应的服务会话
-     * @return 服务会话
-     */
-    public Session getServiceSession(String serviceName, boolean create) {
-        return null;
     }
 
     /**
