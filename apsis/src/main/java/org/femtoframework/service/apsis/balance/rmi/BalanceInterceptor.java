@@ -1,18 +1,13 @@
 package org.femtoframework.service.apsis.balance.rmi;
 
-import org.bolango.apsis.ApsisBalancer;
-import org.bolango.apsis.ApsisClient;
-import org.bolango.apsis.ApsisSessionID;
-import org.bolango.apsis.SessionLocal;
-import org.bolango.apsis.client.MultiClient;
-import org.bolango.apsis.coin.CoinNamingContext;
-import org.bolango.apsis.naming.ApsisName;
-import org.bolango.apsis.naming.ApsisNamingConstants;
-import org.bolango.apsis.naming.ApsisNamingContext;
-import org.bolango.frame.SessionID;
-import org.bolango.frame.client.ClientUtil;
-import org.bolango.frame.rmi.ConnectException;
-import org.bolango.naming.NamingConstants;
+import org.femtoframework.service.SessionID;
+import org.femtoframework.service.apsis.ApsisBalancer;
+import org.femtoframework.service.apsis.ApsisClient;
+import org.femtoframework.service.apsis.ApsisSessionID;
+import org.femtoframework.service.apsis.SessionLocal;
+import org.femtoframework.service.apsis.client.MultiClient;
+import org.femtoframework.service.apsis.naming.ApsisName;
+import org.femtoframework.service.rmi.ConnectException;
 
 import javax.naming.Context;
 import javax.naming.Name;

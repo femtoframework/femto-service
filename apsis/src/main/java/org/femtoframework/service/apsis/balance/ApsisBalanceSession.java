@@ -1,19 +1,17 @@
 package org.femtoframework.service.apsis.balance;
 
-import org.bolango.apsis.ApsisSession;
-import org.bolango.apsis.ApsisSessionID;
-import org.bolango.frame.Session;
-import org.bolango.frame.SessionID;
-import org.bolango.frame.balance.BalanceSession;
-import org.bolango.security.auth.AuthUtil;
-import org.bolango.util.AbstractParameters;
-import org.bolango.util.CollectionUtil;
+import org.femtoframework.service.Session;
+import org.femtoframework.service.SessionID;
+import org.femtoframework.service.apsis.ApsisSession;
+import org.femtoframework.service.apsis.ApsisSessionID;
+import org.femtoframework.service.balance.BalanceSession;
 
 import javax.security.auth.Subject;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -62,7 +60,7 @@ public class ApsisBalanceSession extends AbstractParameters
      * @return 参数名称枚举
      */
     public Iterator<String> getNames() {
-        return CollectionUtil.EMPTY_ITERATOR;
+        return Collections.emptyIterator();
     }
 
     /**

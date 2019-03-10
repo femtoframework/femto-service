@@ -12,18 +12,14 @@ import java.util.EventObject;
 public class SessionEvent
     extends EventObject
 {
-    private Scope scope = null;
-
     /**
      * 构造
      *
      * @param source 会话
-     * @param scope  会话空间
      */
-    public SessionEvent(Session source, Scope scope)
+    public SessionEvent(Session source)
     {
         super(source);
-        this.scope = scope;
     }
 
     /**
@@ -36,24 +32,10 @@ public class SessionEvent
         return (Session) super.getSource();
     }
 
-    /**
-     * 获取空间设置
-     *
-     * @return 获取空间设置
-     */
-    public Scope getScope()
-    {
-        return scope;
-    }
-
-
     public String toString()
     {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("SessionEvent");
-        sb.append("{scope=").append(scope);
-        sb.append(",source=").append(source);
-        sb.append('}');
-        return sb.toString();
+        return "SessionEvent" +
+                "{source=" + source +
+                '}';
     }
 }

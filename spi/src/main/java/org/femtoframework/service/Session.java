@@ -16,16 +16,6 @@ import java.io.Serializable;
 public interface Session extends Parameters, Serializable
 {
     /**
-     * ServerSession
-     */
-    Scope SCOPE_SERVER = Scope.SERVER;
-
-    /**
-     * ServiceSession
-     */
-    Scope SCOPE_SERVICE = Scope.NAMESPACE;
-
-    /**
      * 返回会话标识
      */
     SessionID getSessionID();

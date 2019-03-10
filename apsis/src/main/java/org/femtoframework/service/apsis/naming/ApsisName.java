@@ -1,6 +1,5 @@
 package org.femtoframework.service.apsis.naming;
 
-import org.bolango.bean.name.Path;
 
 /**
  * ApsisName
@@ -29,7 +28,6 @@ public class ApsisName extends Path implements Cloneable
      *
      * @param groups 数组
      * @param path   最初的路径
-     * @see org.bolango.bean.name.PathParser
      */
     public ApsisName(String[] groups, String path)
     {
@@ -45,7 +43,6 @@ public class ApsisName extends Path implements Cloneable
      * @param path         最初的路径
      * @param hasPrefixSep 是否拥有分隔符前缀
      * @param hasSuffixSep 是否拥有分隔符后缀
-     * @see org.bolango.bean.name.PathParser
      */
     public ApsisName(String[] groups, int off, int size, String path, boolean hasPrefixSep, boolean hasSuffixSep)
     {

@@ -1,15 +1,15 @@
 package org.femtoframework.service.apsis.balance.rmi;
 
-import org.bolango.apsis.ApsisClient;
-import org.bolango.apsis.client.MultiClient;
-import org.bolango.apsis.client.MultiRequestFuture;
-import org.bolango.apsis.rmi.RmiRequest;
-import org.bolango.apsis.rmi.RmiResponse;
-import org.bolango.frame.message.RequestFuture;
-import org.bolango.frame.message.RequestTimeoutException;
-import org.bolango.frame.rmi.RmiUtil;
-import org.bolango.frame.rmi.StrOID;
-import org.bolango.frame.rmi.server.RemoteInterceptor;
+import org.femtoframework.net.message.RequestFuture;
+import org.femtoframework.net.message.RequestTimeoutException;
+import org.femtoframework.service.apsis.ApsisClient;
+import org.femtoframework.service.apsis.client.MultiClient;
+import org.femtoframework.service.apsis.client.MultiRequestFuture;
+import org.femtoframework.service.apsis.rmi.RmiRequest;
+import org.femtoframework.service.apsis.rmi.RmiResponse;
+import org.femtoframework.service.rmi.RmiUtil;
+import org.femtoframework.service.rmi.StrOID;
+import org.femtoframework.service.rmi.server.RemoteInterceptor;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

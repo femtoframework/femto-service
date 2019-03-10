@@ -7,6 +7,7 @@ import org.femtoframework.service.StatefulElement;
 import org.femtoframework.service.apsis.*;
 import org.femtoframework.service.apsis.balance.BalanceSessionGenerator;
 import org.femtoframework.service.apsis.client.MultiClient;
+import org.femtoframework.service.apsis.naming.ApsisName;
 import org.femtoframework.service.balance.BalanceSession;
 import org.femtoframework.service.client.ClientList;
 import org.femtoframework.service.client.ClientUtil;
@@ -17,11 +18,10 @@ import org.femtoframework.util.selector.ListSelector;
 import org.femtoframework.util.selector.ListSelectorUtil;
 import org.femtoframework.util.status.StatusException;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.naming.Name;
-import javax.security.auth.Subject;
 import java.util.List;
-import java.util.Set;
 
 import static org.femtoframework.service.apsis.balance.BalanceServerID.EXTENSION;
 
@@ -52,7 +52,7 @@ public class SimpleBalancer implements ApsisBalancer {
      */
     private SessionGenerator generator = null;
 
-    private Logger logger = LogUtil.getLogger("apsis/balancher");
+    private Logger logger = LoggerFactory.getLogger("apsis/balancher");
 
     private ApsisServiceTree serviceTree = null;
 
