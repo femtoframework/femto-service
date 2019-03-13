@@ -1,6 +1,6 @@
 package org.femtoframework.service.apsis.balance;
 
-import org.bolango.frame.ServerID;
+import org.femtoframework.service.ServerID;
 
 /**
  * 负载均衡的服务器标识
@@ -28,8 +28,7 @@ public class BalanceServerID
             return local;
         }
         ServerID sid = ServerID.getLocal();
-        local = new ServerID(sid.getHost(),
-                             sid.getPort(), EXTENSION);
+        local = new ServerID(sid.getHost(), sid.getPort(), EXTENSION);
         return local;
     }
 

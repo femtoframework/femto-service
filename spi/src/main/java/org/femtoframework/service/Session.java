@@ -13,7 +13,7 @@ import java.io.Serializable;
  *
  * @see Parameters
  */
-public interface Session extends Parameters, Serializable
+public interface Session extends Parameters<Object>, Serializable
 {
     /**
      * 返回会话标识

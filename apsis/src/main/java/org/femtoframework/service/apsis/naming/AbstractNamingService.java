@@ -23,7 +23,7 @@ public abstract class AbstractNamingService
 
     protected Name prefix;
 
-    protected final HashMap<String, Binding> bindings = new HashMap<String, Binding>();
+    protected final HashMap<String, Binding> bindings = new HashMap<>();
 
     /**
      * 用给定的名字邦定对应的对象
@@ -81,7 +81,7 @@ public abstract class AbstractNamingService
             String objectName = name.get(0);
             Binding binding = getBinding(objectName);
             if (binding != null) {
-                List<Binding> list = new ArrayList<Binding>(1);
+                List<Binding> list = new ArrayList<>(1);
                 list.add(binding);
                 return list;
             }

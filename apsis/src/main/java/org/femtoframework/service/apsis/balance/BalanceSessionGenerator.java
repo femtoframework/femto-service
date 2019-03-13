@@ -1,8 +1,8 @@
 package org.femtoframework.service.apsis.balance;
 
-import org.bolango.apsis.ApsisSession;
-import org.bolango.apsis.session.ext.SimpleSessionGenerator;
-import org.bolango.frame.SessionID;
+import org.femtoframework.service.SessionID;
+import org.femtoframework.service.apsis.session.ApsisSession;
+import org.femtoframework.service.apsis.session.ApsisSessionGenerator;
 
 /**
  * 负载均衡会话产生器
@@ -10,7 +10,7 @@ import org.bolango.frame.SessionID;
  * @author fengyun
  * @version 1.00 2005-11-17 10:34:04
  */
-public class BalanceSessionGenerator extends SimpleSessionGenerator
+public class BalanceSessionGenerator extends ApsisSessionGenerator<ApsisBalanceSession>
 {
     /**
      * 构造负载均衡产生器
@@ -26,7 +26,7 @@ public class BalanceSessionGenerator extends SimpleSessionGenerator
      * @param sid 会话标识
      * @return Session 会话
      */
-    protected ApsisSession generate(SessionID sid)
+    protected ApsisBalanceSession generate(SessionID sid)
     {
         return new ApsisBalanceSession(sid);
     }

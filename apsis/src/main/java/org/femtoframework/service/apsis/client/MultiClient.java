@@ -89,7 +89,6 @@ public class MultiClient implements ApsisClient
      *
      * @param message 消息
      * @throws IllegalArgumentException 消息无效的时候抛出
-     * @throws MessageWindowFullException 消息窗口满的时候抛出
      */
     public RequestFuture submit(RequestMessage message)
     {

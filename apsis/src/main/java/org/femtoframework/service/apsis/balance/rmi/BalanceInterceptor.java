@@ -1,11 +1,13 @@
 package org.femtoframework.service.apsis.balance.rmi;
 
+import org.femtoframework.naming.NamingConstants;
 import org.femtoframework.service.SessionID;
 import org.femtoframework.service.apsis.ApsisBalancer;
 import org.femtoframework.service.apsis.ApsisClient;
 import org.femtoframework.service.apsis.ApsisSessionID;
 import org.femtoframework.service.apsis.SessionLocal;
 import org.femtoframework.service.apsis.client.MultiClient;
+import org.femtoframework.service.apsis.coin.CoinNamingContext;
 import org.femtoframework.service.apsis.naming.ApsisName;
 import org.femtoframework.service.client.ClientUtil;
 import org.femtoframework.service.rmi.ConnectException;
@@ -189,14 +191,11 @@ public class BalanceInterceptor implements InvocationHandler {
 
         URI uri = new URI(baseUri);
 
-        Hashtable env = new Hashtable();
+        Hashtable<String, Object> env = new Hashtable<>();
         env.put(NamingConstants.PROVIDER_URI, uri);
 
         Context base = null;
-        if (ApsisNamingConstants.SCHEME.equals(scheme)) {
-            base = new ApsisNamingContext(env, "", null);
-        }
-        else if ("coin".equals(scheme)) {
+        if ("coin".equals(scheme)) {
             base = new CoinNamingContext(env, "", null);
         }
         else {

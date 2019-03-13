@@ -1,5 +1,7 @@
 package org.femtoframework.service.apsis.client;
 
+import org.femtoframework.service.apsis.ApsisResponse;
+
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
@@ -10,8 +12,7 @@ import java.io.ObjectOutput;
  * @author <a href="mailto:renex@bolango.cn">rEneX</a>
  * @version 1.00 2005-11-30 16:30:54
  */
-public class MultiResponse
-    extends SimpleResponse {
+public class MultiResponse extends ApsisResponse {
 
     private Object responses[];
 

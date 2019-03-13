@@ -1,13 +1,10 @@
 package org.femtoframework.service.apsis.balance;
 
-import org.bolango.apsis.ApsisSession;
-import org.bolango.apsis.ApsisSessionID;
-import org.bolango.frame.Session;
-import org.bolango.frame.SessionID;
-import org.bolango.frame.balance.BalanceSession;
-import org.bolango.security.auth.AuthUtil;
-import org.bolango.util.AbstractParameters;
-import org.bolango.util.CollectionUtil;
+import org.femtoframework.parameters.Parameters;
+import org.femtoframework.service.SessionID;
+import org.femtoframework.service.apsis.ApsisSessionID;
+import org.femtoframework.service.apsis.session.ApsisSession;
+import org.femtoframework.service.balance.BalanceSession;
 
 import javax.security.auth.Subject;
 import java.io.Externalizable;
@@ -23,56 +20,23 @@ import java.util.*;
  * @version 1.00 2005-11-17 10:17:45
  */
 public class ApsisBalanceSession extends AbstractMap<String, Object>
-    implements BalanceSession, Externalizable, Parameters<Object> {
-    private Map<String, ApsisSessionID> map = new HashMap<String, ApsisSessionID>(8);
+    implements BalanceSession, Externalizable, Parameters<Object>
+{
+    private Map<String, ApsisSessionID> map = new HashMap<>(8);
 
     private transient Subject subject;
+
+    protected SessionID sid = null;
+    private static final int DEFAULT_TIMEOUT = 1800000;
+    private long startingTime;
+    private long lastAccessedTime;
+    private int timeout = DEFAULT_TIMEOUT;
 
     public ApsisBalanceSession(SessionID sid) {
         this.sid = sid;
         this.startingTime = System.currentTimeMillis();
         this.lastAccessedTime = startingTime;
     }
-
-    /**
-     * 返回对象型参数
-     *
-     * @param key 键值
-     * @return 如果找不到返回是<code>#DEFAULT_OBJECT</code>
-     */
-    public Object getObject(String key) {
-        return null;
-    }
-
-    /**
-     * 设置对象型参数
-     *
-     * @param key   键值
-     * @param value 对象型
-     */
-    public Object setObject(String key, Object value) {
-        return null;
-    }
-
-    /**
-     * 返回所有的参数名称
-     *
-     * @return 参数名称枚举
-     */
-    public Iterator<String> getNames() {
-        return CollectionUtil.EMPTY_ITERATOR;
-    }
-
-    /**
-     * 删除参数
-     *
-     * @param name 删除参数
-     * @return 如果存在该名称的参数，返回删除的参数；否则返回<code>null</code>
-     */
-    public Object remove(String name) {
-        return null;
-    }
-
 
     /**
      * 返回第一个会话，这个方法用于当没有声明相应的服务器类型的时候调用
@@ -118,12 +82,6 @@ public class ApsisBalanceSession extends AbstractMap<String, Object>
         return map.remove(serverType);
     }
 
-    protected SessionID sid = null;
-    private static final int DEFAULT_TIMEOUT = 1800000;
-    private long startingTime;
-    private long lastAccessedTime;
-    private int timeout = DEFAULT_TIMEOUT;
-
     /**
      * 返回会话标识
      */
@@ -136,11 +94,6 @@ public class ApsisBalanceSession extends AbstractMap<String, Object>
      */
     public String getId() {
         return sid.toString();
-    }
-
-    public void release() {
-        sid = null;
-        map.clear();
     }
 
     /**
@@ -200,6 +153,8 @@ public class ApsisBalanceSession extends AbstractMap<String, Object>
      */
     public void expire() {
         map.clear();
+
+        sid = null;
     }
 
     /**
@@ -210,22 +165,14 @@ public class ApsisBalanceSession extends AbstractMap<String, Object>
     }
 
     /**
-     * 返回更高一层的会话，如果是服务器会话，那么返回null，如果是服务会话，那么返回服务器会话
-     *
-     * @return 返回更高一层的会话
-     */
-    public Session getParent() {
-        return null;
-    }
-
-    /**
      * 返回当前会话对应的Subject
      *
      * @return 当前的Subject
      */
     public Subject getSubject() {
         if (subject == null) {
-            subject = AuthUtil.getSubject();
+            //TODO
+//            subject = AuthUtil.getSubject();
         }
         return subject;
     }
@@ -237,36 +184,6 @@ public class ApsisBalanceSession extends AbstractMap<String, Object>
      */
     public void setSubject(Subject subject) {
         this.subject = subject;
-    }
-
-    /**
-     * 根据服务名称返回相应的会话，服务会话不可以拥有自己单独的
-     *
-     * @param serviceName 服务名称
-     * @return 服务会话
-     */
-    public Session getServiceSession(String serviceName) {
-        return null;
-    }
-
-    /**
-     * 根据服务名称返回相应的会话，服务会话不可以拥有自己单独的
-     *
-     * @param serviceName 服务名称
-     * @param create      如果服务不存在，是否创建相应的服务会话
-     * @return 服务会话
-     */
-    public Session getServiceSession(String serviceName, boolean create) {
-        return null;
-    }
-
-    /**
-     * stop a service session
-     *
-     * @param serviceName ServiceName
-     */
-    public void endServiceSession(String serviceName) {
-
     }
 
     @Override
@@ -283,5 +200,10 @@ public class ApsisBalanceSession extends AbstractMap<String, Object>
         startingTime = ois.readLong();
         lastAccessedTime = ois.readLong();
         timeout = ois.readInt();
+    }
+
+    @Override
+    public Set<Entry<String, Object>> entrySet() {
+        return null;
     }
 }

@@ -8,12 +8,13 @@ import org.femtoframework.service.apsis.*;
 import org.femtoframework.service.apsis.balance.BalanceSessionGenerator;
 import org.femtoframework.service.apsis.client.MultiClient;
 import org.femtoframework.service.apsis.naming.ApsisName;
+import org.femtoframework.service.apsis.session.SessionContainer;
+import org.femtoframework.service.apsis.session.SessionGenerator;
+import org.femtoframework.service.apsis.session.ApsisSessionContainer;
 import org.femtoframework.service.balance.BalanceSession;
 import org.femtoframework.service.client.ClientList;
 import org.femtoframework.service.client.ClientUtil;
-import org.femtoframework.util.CollectionUtil;
 import org.femtoframework.util.DataUtil;
-import org.femtoframework.util.StringUtil;
 import org.femtoframework.util.selector.ListSelector;
 import org.femtoframework.util.selector.ListSelectorUtil;
 import org.femtoframework.util.status.StatusException;
@@ -21,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.naming.Name;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.femtoframework.service.apsis.balance.BalanceServerID.EXTENSION;
@@ -54,11 +56,8 @@ public class SimpleBalancer implements ApsisBalancer {
 
     private Logger logger = LoggerFactory.getLogger("apsis/balancher");
 
-    private ApsisServiceTree serviceTree = null;
-
     public SimpleBalancer(ApsisClientManager manager) {
         this.manager = manager;
-        serviceTree = ApsisServerUtil.getServiceTree(manager);
     }
 
     /**
@@ -68,7 +67,7 @@ public class SimpleBalancer implements ApsisBalancer {
      */
     private SessionContainer<BalanceSession> getSessionContainer() {
         if (container == null) {
-            container = new SimpleSessionContainer<BalanceSession>();
+            container = new ApsisSessionContainer<>();
         }
         return container;
     }
@@ -168,8 +167,6 @@ public class SimpleBalancer implements ApsisBalancer {
         if (!ApsisName.isSpecialPrefix(server)) {
             server = "#" + server;
         }
-        String service = rule.size() > 1 ? rule.get(1) : null;
-        boolean hasService = StringUtil.isValid(service);
         if (sid != null) {
             ApsisSessionID backEndSid = null;
             int extension = sid.getExtension();
@@ -211,48 +208,27 @@ public class SimpleBalancer implements ApsisBalancer {
         ApsisClient local = getLocalClient();
         if (server == null || "+".equals(server)) {
             //任意选择一个服务器
-            if (hasService) {
-                return serviceTree.findClient(service);
-            }
             return getNextClient();
         }
         else if ("*".equals(server) || "%".equals(server) || "^".equals(server)) {
             //所有服务器
             boolean removeLocal = "%".equals(server);
             List<ApsisClient> clients;
-            if (hasService) {
-                ClientList<ApsisClient> list = serviceTree.getClientList(service);
-                if (list == null) {
-                    return null;
-                }
-                if (removeLocal) {
-                    list.removeClient(local);
-                }
-                clients = list.getAll();
+            if (removeLocal) {
+                List<ApsisClient> list = manager.getClients();
+                List<ApsisClient> newList = new ArrayList<>(list);
+                newList.remove(local);
+                clients = newList;
             }
             else {
-                if (removeLocal) {
-                    List<ApsisClient> list = manager.getClients();
-                    List<ApsisClient> newList = CollectionUtil.clone(list);
-                    newList.remove(local);
-                    clients = newList;
-                }
-                else {
-                    return ClientUtil.getClient("*", 0, true);
-                }
+                return ClientUtil.getClient("*", 0, true);
             }
-            if (clients != null && !clients.isEmpty()) {
+            if (!clients.isEmpty()) {
                 return new MultiClient(clients);
             }
             return null;
         }
-        else if ("@".equals(server)) {
-            //优先选择本地的服务器
-            if (hasService) {
-                ClientList<ApsisClient> list = serviceTree.getClientList(service);
-                return list == null ? null :
-                       list.containsClient(local) ? local : serviceTree.findClient(service);
-            }
+        else if ("@".equals(server)) {//优先选择本地的服务器
             return local;
         }
         else if ("$".equals(server)) {
@@ -287,7 +263,6 @@ public class SimpleBalancer implements ApsisBalancer {
             setSubject(parameters);
             return getNextClientByServerType(server);
         }
-//        throw new IllegalArgumentException("Illegal rule:" + rule);
     }
 
     /**
@@ -382,6 +357,8 @@ public class SimpleBalancer implements ApsisBalancer {
         return localClient;
     }
 
+    private ListSelector listSelector = ListSelectorUtil.createSelector("random");
+
     /**
      * 选取其中的一个客户端
      *
@@ -389,18 +366,12 @@ public class SimpleBalancer implements ApsisBalancer {
      */
     public ApsisClient getNextClient() {
         List<ApsisClient> clients = manager.getClients();
-        synchronized (clients) {
-            if (clients.size() > 0) {
-                try {
-                    return clients.get(UniqueID.nextInt(clients.size()));
-                }
-                catch (Exception e) {
-                    try {
-                        return clients.get(0);
-                    }
-                    catch (Exception ex) {
-                    }
-                }
+        if (clients.size() > 0) {
+            try {
+                return listSelector.select(clients);
+            }
+            catch (Exception e) {
+                return clients.get(0);
             }
         }
         return null;
