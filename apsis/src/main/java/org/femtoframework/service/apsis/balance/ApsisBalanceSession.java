@@ -1,20 +1,20 @@
 package org.femtoframework.service.apsis.balance;
 
-import org.femtoframework.service.Session;
-import org.femtoframework.service.SessionID;
-import org.femtoframework.service.apsis.ApsisSession;
-import org.femtoframework.service.apsis.ApsisSessionID;
-import org.femtoframework.service.balance.BalanceSession;
+import org.bolango.apsis.ApsisSession;
+import org.bolango.apsis.ApsisSessionID;
+import org.bolango.frame.Session;
+import org.bolango.frame.SessionID;
+import org.bolango.frame.balance.BalanceSession;
+import org.bolango.security.auth.AuthUtil;
+import org.bolango.util.AbstractParameters;
+import org.bolango.util.CollectionUtil;
 
 import javax.security.auth.Subject;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Apsis 负载均衡会话
@@ -22,8 +22,8 @@ import java.util.Map;
  * @author fengyun
  * @version 1.00 2005-11-17 10:17:45
  */
-public class ApsisBalanceSession extends AbstractParameters
-    implements BalanceSession, Externalizable, ApsisSession {
+public class ApsisBalanceSession extends AbstractMap<String, Object>
+    implements BalanceSession, Externalizable, Parameters<Object> {
     private Map<String, ApsisSessionID> map = new HashMap<String, ApsisSessionID>(8);
 
     private transient Subject subject;
@@ -60,7 +60,7 @@ public class ApsisBalanceSession extends AbstractParameters
      * @return 参数名称枚举
      */
     public Iterator<String> getNames() {
-        return Collections.emptyIterator();
+        return CollectionUtil.EMPTY_ITERATOR;
     }
 
     /**

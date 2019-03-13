@@ -78,19 +78,11 @@ public interface Session extends Parameters, Serializable
     void access();
 
     /**
-     * 返回更高一层的会话，如果是服务器会话，那么返回null，如果是服务会话，那么返回服务器会话
-     *
-     * @return 返回更高一层的会话
-     */
-    Session getParent();
-
-    /**
      * 返回当前会话对应的Subject
      *
      * @return 当前的Subject
      */
     Subject getSubject();
-
 
     /**
      * 设置认证主题

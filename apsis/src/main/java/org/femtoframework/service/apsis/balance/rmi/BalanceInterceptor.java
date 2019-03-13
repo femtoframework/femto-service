@@ -7,6 +7,7 @@ import org.femtoframework.service.apsis.ApsisSessionID;
 import org.femtoframework.service.apsis.SessionLocal;
 import org.femtoframework.service.apsis.client.MultiClient;
 import org.femtoframework.service.apsis.naming.ApsisName;
+import org.femtoframework.service.client.ClientUtil;
 import org.femtoframework.service.rmi.ConnectException;
 
 import javax.naming.Context;

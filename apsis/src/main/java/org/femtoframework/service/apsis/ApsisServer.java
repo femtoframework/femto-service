@@ -123,13 +123,6 @@ public interface ApsisServer extends Server
     Collection<String> getConnectorNames();
 
     /**
-     * 返回服务器Metadata信息
-     *
-     * @return 服务器Metadata信息
-     */
-    ServerMetadata getMetadata();
-
-    /**
      * 返回服务器应用类型
      *
      * @return 服务器应用类型
