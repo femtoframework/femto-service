@@ -1,6 +1,6 @@
 package org.femtoframework.service.apsis.session;
 
-import org.femtoframework.service.Container;
+import org.femtoframework.bean.NamedBean;
 import org.femtoframework.service.Session;
 import org.femtoframework.service.SessionID;
 import org.femtoframework.service.SessionListener;
@@ -13,7 +13,7 @@ import java.util.Collection;
  * @author fengyun
  * @version 1.00 2005-6-17 0:43:28
  */
-public interface SessionContainer<S extends Session> extends Container
+public interface SessionContainer<S extends Session> extends NamedBean
 {
     /**
      * 返回会话的数目

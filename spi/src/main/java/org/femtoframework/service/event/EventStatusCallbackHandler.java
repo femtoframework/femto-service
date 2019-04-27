@@ -6,6 +6,6 @@ package org.femtoframework.service.event;
  * @author renex
  * @version 2006-10-20 18:23:53
  */
-public interface EventStatusCallbackHandler<E> extends EventCallbackHandler<E>
+public interface EventStatusCallbackHandler extends EventCallbackHandler
 {
 }

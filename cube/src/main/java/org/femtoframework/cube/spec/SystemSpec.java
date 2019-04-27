@@ -33,7 +33,7 @@ public class SystemSpec implements NamedBean, Nameable {
     private HostSpec host = null;
     private ServerSpec server = null;
 
-    private String version = CubeConstants.SPEC_VERSION;
+    private String version = CubeConstants.CUBE_V_7;
 
     private Platform platform = Platform.STATIC;
 

@@ -24,11 +24,11 @@ public class CubeTcpEndpointTest {
 
         Namespace namespace = coinModule.getNamespaceFactory().get(CubeConstants.CUBE);
         ComponentFactory componentFactory = namespace.getComponentFactory();
-        Component component = componentFactory.get(CubeConstants.APP_SERVER);
+        Component component = componentFactory.get(CubeConstants.NAME_APP_SERVER);
         assertNotNull(component);
 
         AppServer appServer = (AppServer)component.getBean();
-        Endpoint endpoint = appServer.getEndpoint(CubeConstants.TCP_ENDPOINT);
+        Endpoint endpoint = appServer.getEndpoint(CubeConstants.NAME_TCP_ENDPOINT);
         assertNotNull(endpoint);
     }
 }

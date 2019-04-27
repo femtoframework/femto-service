@@ -9,13 +9,17 @@ package org.femtoframework.cube;
 public interface CubeConstants
 {
     String CUBE = "cube";
-    String SPEC_VERSION = "cube/v7";
-    String SYSTEM = "system";
+    String CUBE_V_7 = "cube/v7";
+    String KIND_SYSTEM = "System";
     String HOST = "host";
     String SERVER = "server";
     String BACKEND = "backend";
-    String APP_SERVER = "app_server";
-    String TCP_ENDPOINT = "tcp_endpoint";
+    String KIND_APP_SERVER = "AppServer";
+    String KIND_TCP_ENDPOINT = "TcpEndpoint";
+
+    String NAME_SYSTEM = "system";
+    String NAME_APP_SERVER = "app_server";
+    String NAME_TCP_ENDPOINT = "tcp_endpoint";
 
     int BIFURCATION_STOP = 0x44;
 

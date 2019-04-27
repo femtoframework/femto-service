@@ -3,8 +3,6 @@ package org.femtoframework.service.apsis.ext;
 import org.femtoframework.bean.BeanPhase;
 import org.femtoframework.bean.annotation.Description;
 import org.femtoframework.bean.annotation.Property;
-import org.femtoframework.implement.ImplementConfig;
-import org.femtoframework.implement.ImplementUtil;
 import org.femtoframework.naming.NamingServiceFactory;
 import org.femtoframework.naming.NamingUtil;
 import org.femtoframework.net.message.MessageListener;
@@ -12,11 +10,8 @@ import org.femtoframework.net.message.MessageMetadata;
 import org.femtoframework.net.message.MessageRegistry;
 import org.femtoframework.net.message.MessageRegistryUtil;
 import org.femtoframework.service.*;
-import org.femtoframework.service.apsis.ApsisClientManager;
 import org.femtoframework.service.apsis.ApsisConstants;
 import org.femtoframework.service.apsis.ApsisServer;
-import org.femtoframework.service.event.GenericEvent;
-import org.femtoframework.service.apsis.local.LocalClient;
 import org.femtoframework.service.client.ClientUtil;
 import org.femtoframework.util.queue.LinkedQueue;
 import org.femtoframework.util.thread.ExecutorUtil;
@@ -36,38 +31,12 @@ import java.util.concurrent.ExecutorService;
  */
 @ManagedBean
 public class SimpleApsisServer extends LifecycleThread
-        implements ApsisServer, MessageListener, Runnable, ContainerListener {
+        implements ApsisServer, MessageListener, Runnable {
     /**
      * 日志
      */
     private static Logger log = LoggerFactory.getLogger("apsis/server");
 
-    static {
-        if (log.isInfoEnabled()) {
-            log.info("Deploying the default service 'system'");
-        }
-        CoinUtil.deployResource("org/bolango/apsis/system/system.xml");
-
-        if (log.isInfoEnabled()) {
-            log.info("The default service 'system' is deployed");
-        }
-    }
-
-    //单例
-    private static SimpleApsisServer instance = new SimpleApsisServer();
-
-    /**
-     * 构造
-     */
-    private SimpleApsisServer() {
-    }
-
-    /**
-     * 返回实例
-     */
-    public static ApsisServer getInstance() {
-        return instance;
-    }
 
     public static final int DEFAULT_MAX_WAITING_COUNT = 16 * 1024;
 
@@ -75,11 +44,6 @@ public class SimpleApsisServer extends LifecycleThread
      * 服务器
      */
     private Map<String, Server> servers = new HashMap<String, Server>();
-
-    /**
-     * 对象容器
-     */
-    private Map<String, Container> containers = new HashMap<String, Container>();
 
     /**
      * 连接器
@@ -107,59 +71,9 @@ public class SimpleApsisServer extends LifecycleThread
     @Description("Max count of the waited message in queue")
     private int maxWaitingCount = DEFAULT_MAX_WAITING_COUNT;
 
-//    /**
-//     * 服务器Metadata
-//     */
-//    private ServerMetadata metadata = null;
-
     private long id;
 
     private String type;
-
-    /**
-     * 添加容器
-     *
-     * @param container 对象容器
-     */
-    public void addContainer(Container container) {
-        containers.put(container.getName(), container);
-
-        //侦听服务的改变
-        if (container instanceof ServiceContainer) {
-            ((ServiceContainer)container).addContainerListener(this);
-        }
-    }
-
-    /**
-     * 返回对象容器
-     *
-     * @param name 对象容器名称
-     */
-//    @Function (desc = "Query container")
-    public Container getContainer(String name) {
-        return containers.get(name);
-    }
-
-    /**
-     * 根据对象容器名称删除容器
-     *
-     * @param name 对象容器名称
-     */
-    public Container removeContainer(String name) {
-        return containers.remove(name);
-    }
-
-    /**
-     * 返回所有对象容器名称
-     *
-     * @return 所有对象容器名称
-     */
-    @Property (writable = false)
-    @Description("Names of the all containers")
-    public Collection<String> getContainerNames() {
-        return containers.keySet();
-    }
-
 
     /**
      * 添加服务器，服务器在所有容器之后初始化，所以这个方法的位置不能在AddContainer之前
@@ -184,7 +98,6 @@ public class SimpleApsisServer extends LifecycleThread
      *
      * @param name 服务器名称
      */
-//    @Function (desc = "Query server")
     public Server getServer(String name) {
         return servers.get(name);
     }
@@ -263,18 +176,6 @@ public class SimpleApsisServer extends LifecycleThread
         return connectors.keySet();
     }
 
-//    /**
-//     * 返回服务器Metadata信息
-//     *
-//     * @return 服务器Metadata信息
-//     */
-//    public ServerMetadata getMetadata() {
-//        if (metadata == null) {
-//            metadata = new SimpleServerMetadata(this);
-//        }
-//        return metadata;
-//    }
-
     /**
      * 返回服务器应用类型
      *
@@ -316,41 +217,6 @@ public class SimpleApsisServer extends LifecycleThread
         onMessage(metadata, message);
     }
 
-
-    protected <T> void initObjects(Class<T> interfaceClass, String namespace) {
-        ImplementConfig props = ImplementUtil.getImplementConfig(interfaceClass);
-        for (String name : props.stringPropertyNames()) {
-
-            Object obj = CoinUtil.getObject(namespace, name);
-            if (obj == null) {
-                if (interfaceClass != Server.class) { //Ignore journal server
-                    String className = props.getProperty(name);
-                    ObjectMeta def = MetaUtil.getObjectMeta(name, namespace);
-                    if (def == null) {
-                        def = new ObjectMeta(className);
-                        def.setName(name);
-                        obj = CoinUtil.createObject(namespace, def);
-                    } else {
-                        if (def.getClassName() == null) {
-                            def.setClassName(className);
-                        }
-                        obj = CoinUtil.createObject(namespace, def);
-                    }
-                }
-            }
-
-            if (obj != null) {
-                if (interfaceClass == Container.class) {
-                    addContainer((Container) obj);
-                } else if (interfaceClass == Connector.class) {
-                    addConnector((Connector) obj);
-                } else if (interfaceClass == Server.class) {
-                    addServer((Server) obj);
-                }
-            }
-        }
-    }
-
     /**
      * 初始化
      */
@@ -360,10 +226,7 @@ public class SimpleApsisServer extends LifecycleThread
         id = ServerID.getLocal().getId();
         type = System.getProperty("cube.system.type");
 
-        initObjects(Container.class, "apsis_containers");
-        initObjects(Server.class, "apsis_servers");
-        initObjects(Connector.class, " apsis_connectors");
-
+        //Join
         Iterator it = connectors.keySet().iterator();
         String name;
         while (it.hasNext()) {
@@ -390,18 +253,7 @@ public class SimpleApsisServer extends LifecycleThread
 
 
         //侦听所有的客户端改变信息
-        ApsisClientManager clientMap = ClientUtil.getManager();
-        //TODO
-//        clientMap.addStatusChangeListener(new ClientStatusChangeListener(this));
-
-//        ApsisServiceTree tree = ApsisServerUtil.getServiceTree(clientMap);
-//        //添加自身的Metadata
-//        tree.addServerMetadata(getMetadata());
-
-        if (log.isInfoEnabled()) {
-            log.info("Apsis Server started!ServerID:" + ServerID.getLocal());
-            log.info(getContainer("service").toString());
-        }
+        ClientUtil.getManager();
 
         //默认启动 apsis:// 名字服务器
         NamingServiceFactory factory = NamingUtil.getServiceFactory(ApsisConstants.SCHEME);
@@ -450,7 +302,7 @@ public class SimpleApsisServer extends LifecycleThread
         //进入执行队列
         int size = queue.size();
         if (size < maxWaitingCount) {
-            queue.push(new MessageCart(metadata, message, listener));
+            queue.offer(new MessageCart(metadata, message, listener));
         }
         else {
             if (log.isErrorEnabled()) {
@@ -462,7 +314,7 @@ public class SimpleApsisServer extends LifecycleThread
                     for (int i = 0; i < 10; i++) {
                         queue.remove(i);
                     }
-                    queue.push(new MessageCart(metadata, message, listener));
+                    queue.offer(new MessageCart(metadata, message, listener));
                 }
             }
             catch (Throwable t) {
@@ -494,7 +346,7 @@ public class SimpleApsisServer extends LifecycleThread
      * @see #run()
      */
     protected void doRun() throws Exception {
-        MessageCart cart = queue.pop();
+        MessageCart cart = queue.poll();
         if (cart.isTimeout()) {
             //如果消息已经超时，那么不进行处理
             return;
@@ -533,7 +385,7 @@ public class SimpleApsisServer extends LifecycleThread
                     if (mc.isTimeout()) {
                         mc.cancel();
                         if (removed == null) {
-                            removed = new ArrayList<MessageCart>();
+                            removed = new ArrayList<>();
                         }
                         removed.add(mc);
                     }
@@ -563,25 +415,5 @@ public class SimpleApsisServer extends LifecycleThread
      */
     public void setMaxWaitingCount(int maxWaitingCount) {
         this.maxWaitingCount = maxWaitingCount;
-    }
-
-    /**
-     * Acknowledge the occurrence of the specified event.
-     *
-     * @param event ContainerEvent that has occurred
-     */
-    public void handleContainerEvent(ContainerEvent event) {
-        //侦听服务信息，重置ServerMetadata
-        metadata = null;
-        try {
-            ServerMetadata newMetadata = getMetadata();
-            //传递事件给 ServerMetadataListener，让它去发送给每一个ApsisClient
-            GenericEvent ge = new GenericEvent("$/system/server_metadata_listener",
-                    "service_change", newMetadata);
-            LocalClient.submitMessage(ge);
-        }
-        catch (Throwable t) {
-            log.warn("Notify service changed event exception", t);
-        }
     }
 }

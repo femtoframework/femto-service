@@ -93,8 +93,7 @@ public class GmppConnector extends AbstractConnector
         registerSocketHandler(socketHandler);
 
         //确认启动Cube App Server
-        //TODO
-//        CubeUtil.getAppServer();
+        CubeUtil.getAppServer();
     }
 
 

@@ -39,9 +39,9 @@ public class SimpleCubeModule implements CubeModule
                 CoinModule coinModule = CoinUtil.getModule();
                 Namespace namespace = coinModule.getNamespaceFactory().getNamespace(CubeConstants.CUBE, true);
                 ComponentFactory componentFactory = namespace.getComponentFactory();
-                Component component = componentFactory.get(CubeConstants.SYSTEM);
+                Component component = componentFactory.get(CubeConstants.KIND_SYSTEM);
                 if (component == null) {
-                    throw new IllegalStateException("No such component, cube:" + CubeConstants.SYSTEM);
+                    throw new IllegalStateException("No such component, cube:" + CubeConstants.KIND_SYSTEM);
                 }
                 systemSpec = (SystemSpec)component.getBean();
             }
@@ -63,9 +63,9 @@ public class SimpleCubeModule implements CubeModule
                 CoinModule coinModule = CoinUtil.getModule();
                 Namespace namespace = coinModule.getNamespaceFactory().getNamespace(CubeConstants.CUBE, true);
                 ComponentFactory componentFactory = namespace.getComponentFactory();
-                Component component = componentFactory.get(CubeConstants.APP_SERVER);
+                Component component = componentFactory.get(CubeConstants.KIND_APP_SERVER);
                 if (component == null) {
-                    throw new IllegalStateException("No such component, cube:" + CubeConstants.APP_SERVER);
+                    throw new IllegalStateException("No such component, cube:" + CubeConstants.KIND_APP_SERVER);
                 }
                 appServer = (AppServer)component.getBean();
             }

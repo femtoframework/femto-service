@@ -12,8 +12,8 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.femtoframework.namespace</groupId>
-  <artifactId>femto-namespace</artifactId>
+  <groupId>org.femtoframework.service</groupId>
+  <artifactId>femto-service</artifactId>
   <packaging>pom</packaging>
   <version>7.0.0-SNAPSHOT</version>
 
@@ -32,17 +32,17 @@
         <version>7.0.0-SNAPSHOT</version>
       </dependency>
       <dependency>
-        <groupId>org.femtoframework.namespace</groupId>
+        <groupId>org.femtoframework.service</groupId>
         <artifactId>femto-cube</artifactId>
         <version>7.0.0-SNAPSHOT</version>
       </dependency>
       <dependency>
-        <groupId>org.femtoframework.namespace</groupId>
+        <groupId>org.femtoframework.service</groupId>
         <artifactId>namespace-spi</artifactId>
         <version>7.0.0-SNAPSHOT</version>
       </dependency>
       <dependency>
-        <groupId>org.femtoframework.namespace</groupId>
+        <groupId>org.femtoframework.service</groupId>
         <artifactId>namespace-rmi</artifactId>
         <version>7.0.0-SNAPSHOT</version>
       </dependency>

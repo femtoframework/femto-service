@@ -1,10 +1,10 @@
 package org.femtoframework.service.apsis;
 
 import org.femtoframework.service.Connector;
-import org.femtoframework.service.Container;
 import org.femtoframework.service.Server;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -46,36 +46,6 @@ public interface ApsisServer extends Server
      * @return 所有服务器名称
      */
     Collection<String> getServerNames();
-
-    /**
-     * 添加容器
-     *
-     * @param container 对象容器
-     */
-    void addContainer(Container container);
-
-    /**
-     * 返回对象容器
-     *
-     * @param name 对象容器名称
-     * @return 对象容器
-     */
-    Container getContainer(String name);
-
-    /**
-     * 根据对象容器名称删除容器
-     *
-     * @param name 对象容器名称
-     * @return 对象容器
-     */
-    Container removeContainer(String name);
-
-    /**
-     * 返回所有对象容器名称
-     *
-     * @return 所有对象容器名称
-     */
-    Collection<String> getContainerNames();
 
     /**
      * 设置线程执行器

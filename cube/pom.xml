@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>femto-namespace</artifactId>
-        <groupId>org.femtoframework.namespace</groupId>
+        <artifactId>femto-service</artifactId>
+        <groupId>org.femtoframework.service</groupId>
         <version>7.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -22,6 +22,10 @@
             <groupId>org.femtoframework.net</groupId>
             <artifactId>femto-endpoint</artifactId>
             <version>7.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.femtoframework.service</groupId>
+            <artifactId>service-rmi</artifactId>
         </dependency>
         <dependency>
             <groupId>org.femtoframework.util</groupId>

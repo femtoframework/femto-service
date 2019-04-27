@@ -66,7 +66,6 @@ public class ApsisSession extends ParametersMap<Object>
      */
     public void setSessionContainer(SessionContainer container)
     {
-        //当 Container 设置为 null 的时候表示会话超时
         if (container == null) {
             if (this.container != null) {
                 fireDestroyedEvent();

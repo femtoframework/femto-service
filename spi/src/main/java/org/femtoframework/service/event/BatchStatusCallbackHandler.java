@@ -6,9 +6,9 @@ package org.femtoframework.service.event;
  * @author fengyun
  * @version 1.00 2006-10-24 19:03:13
  */
-public class BatchStatusCallbackHandler<E>
+public class BatchStatusCallbackHandler
     extends BatchCallbackHandler
-    implements EventStatusCallbackHandler<E>
+    implements EventStatusCallbackHandler
 {
     public BatchStatusCallbackHandler(Object lock)
     {

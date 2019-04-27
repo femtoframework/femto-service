@@ -1,15 +1,14 @@
-_version: cube/v7
-_kind: tcp_endpoint
-_belongsTo: cube:app_server#addEndpoint
-executor:
-  _kind: bean
-  _type: org.femtoframework.util.thread.ThreadPool
-  _name: tcp_endpoint_pool
-  maxThreads: 8
-  minSpareThreads: 2
-  maxSpareThreads: 4
-  incThreads: 2
+apiVersion: cube/v7
+kind: TcpEndpoint
+spec:
+  executor:
+    class: org.femtoframework.util.thread.ThreadPool
+    name: tcp_endpoint_pool
+    maxThreads: 8
+    minSpareThreads: 2
+    maxSpareThreads: 4
+    incThreads: 2
 
 ---
-_version: cube/v7
-_kind: app_server
+apiVersion: cube/v7
+kind: AppServer
