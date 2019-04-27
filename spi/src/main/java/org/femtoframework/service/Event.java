@@ -8,6 +8,8 @@ import org.femtoframework.service.event.EventCallbackable;
  * <p/>
  * 自己本身拥有callback功能
  *
+ * Event is different with
+ *
  * @author fengyun
  * @author rEneX
  * @version 1.00 Sep 10, 2005 4:11:52 AM

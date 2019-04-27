@@ -13,33 +13,33 @@ public interface EventCallback
      *
      * @return 是否执行失败？如果有异常则认为失败
      */
-    public boolean isException();
+    boolean isException();
 
     /**
      * 得到失败源，也就是失败的原因
      *
      * @return 得到失败源
      */
-    public Throwable getException();
+    Throwable getException();
 
     /**
      * 设置异常
      *
      * @param t
      */
-    public void setException(Throwable t);
+    void setException(Throwable t);
 
     /**
      * 获取事件源
      *
      * @return 获取事件源
      */
-    public Object getSource();
+    Object getSource();
 
     /**
      * 设置源事件
      *
      * @param source 源
      */
-    public void setSource(Object source);
+    void setSource(Object source);
 }

@@ -4,6 +4,7 @@ import org.femtoframework.bean.Startable;
 import org.femtoframework.coin.CoinUtil;
 import org.femtoframework.cube.CubeUtil;
 import org.femtoframework.cube.spec.HostSpec;
+import org.femtoframework.cube.spec.ServerSpec;
 import org.femtoframework.net.HostPort;
 import org.femtoframework.net.comm.CommConstants;
 import org.femtoframework.service.RemoteClient;
@@ -78,13 +79,13 @@ public class SimpleApsisClientManager extends AbstractClientManager<ApsisClient>
     }
 
     private ApsisClient createDefaultClient(String host, int port) {
-        InetSocketAddress address = CubeUtil.getMulticastAddress(host, port);
+        InetSocketAddress address = new InetSocketAddress(host, port); //CubeUtil.getMulticastAddress(host, port);
         ApsisClient client = null;
         String scheme = "gmpp";
         InetAddress addr = address.getAddress();
-        if (addr.isMulticastAddress()) { //请求的是组播
-            scheme = "group";
-        }
+//        if (addr.isMulticastAddress()) { //请求的是组播
+//            scheme = "group";
+//        }
         try {
             client = createClient(new URI(scheme, null, addr.getHostAddress(), address.getPort(),
                 null, null, null));
@@ -147,13 +148,14 @@ public class SimpleApsisClientManager extends AbstractClientManager<ApsisClient>
         //确认是否已经连接
         for (HostSpec hd : hds) {
             List<String> servers = hd.getServers();
-            if ()
-            if (sd == null) {
-                continue;
-            }
-            //尝试去建立连接
-            if (getClient(hd.getAddress(), sd.getPort(), true) != null) {
-                count++;
+            if (servers.contains(appType)) {
+                ServerSpec serverSpec = CubeUtil.getServer(appType);
+                if (serverSpec != null) {
+                    //尝试去建立连接
+                    if (getClient(hd.getAddress(), serverSpec.getPort(), true) != null) {
+                        count++;
+                    }
+                }
             }
         }
         return count;

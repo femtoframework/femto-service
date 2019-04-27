@@ -33,14 +33,14 @@ public abstract class EventContext
         return getContext().submitIt(event);
     }
 
-    public static FeedBack submit(String name, String action, Serializable event, EventCallbackHandler callbackHandler)
+    public static FeedBack submit(String name, String action, Serializable event, String callbackHandlerName)
     {
-        return getContext().submitIt(name, action, event, callbackHandler);
+        return getContext().submitIt(name, action, event, callbackHandlerName);
     }
 
-    public static FeedBack submit(String name, String action, EventCallbackHandler callbackHandler, Serializable... eventArgs)
+    public static FeedBack submit(String name, String action, String callbackHandlerName, Serializable... eventArgs)
     {
-        return getContext().submitIt(name, action, callbackHandler, eventArgs);
+        return getContext().submitIt(name, action, callbackHandlerName, eventArgs);
     }
 
     public static FeedBack submit(String name, String action, Serializable event)
@@ -48,9 +48,9 @@ public abstract class EventContext
         return submit(name, action, event, null);
     }
 
-    public static FeedBack submit(String name, Serializable event, EventCallbackHandler callbackHandler)
+    public static FeedBack submit(String name, Serializable event, String callbackHandlerName)
     {
-        return submit(name, null, event, callbackHandler);
+        return submit(name, null, event, callbackHandlerName);
     }
 
     public static FeedBack submit(String name, Serializable event)
@@ -58,9 +58,9 @@ public abstract class EventContext
         return submit(name, null, event, null);
     }
 
-    public abstract FeedBack submitIt(String name, String action, EventCallbackHandler callbackHandler, Serializable...  eventArgs);
+    public abstract FeedBack submitIt(String name, String action, String callbackHandlerName, Serializable...  eventArgs);
 
-    public abstract FeedBack submitIt(String name, String action, Serializable event, EventCallbackHandler callbackHandler);
+    public abstract FeedBack submitIt(String name, String action, Serializable event, String callbackHandlerName);
 
     public abstract FeedBack submitIt(Event event);
 

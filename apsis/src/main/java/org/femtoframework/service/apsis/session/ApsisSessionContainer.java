@@ -1,7 +1,6 @@
 package org.femtoframework.service.apsis.session;
 
-import org.femtoframework.bean.BeanPhase;
-import org.femtoframework.bean.LifecycleMBean;
+import org.femtoframework.bean.AbstractLifecycle;
 import org.femtoframework.bean.annotation.Property;
 import org.femtoframework.service.Session;
 import org.femtoframework.service.SessionEvent;
@@ -21,7 +20,8 @@ import java.util.*;
  * @version 1.00 2005-7-26 15:29:57
  */
 public class ApsisSessionContainer<S extends Session>
-    implements SessionContainer<S>, Runnable, LifecycleMBean
+    extends AbstractLifecycle
+    implements SessionContainer<S>, Runnable
 {
     private String name;
 
@@ -276,28 +276,6 @@ public class ApsisSessionContainer<S extends Session>
         }
         trimSession(timeout, toTrim);
 
-    }
-
-    private BeanPhase beanPhase = BeanPhase.DISABLED;
-
-    /**
-     * Implement method of getPhase
-     *
-     * @return BeanPhase
-     */
-    @Override
-    public BeanPhase _doGetPhase() {
-        return beanPhase;
-    }
-
-    /**
-     * Phase setter for internal
-     *
-     * @param phase BeanPhase
-     */
-    @Override
-    public void _doSetPhase(BeanPhase phase) {
-        this.beanPhase = phase;
     }
 
     /**

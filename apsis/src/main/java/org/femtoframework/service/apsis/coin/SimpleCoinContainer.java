@@ -1,14 +1,14 @@
 package org.femtoframework.service.apsis.coin;
 
-import org.bolango.bean.info.Property;
-import org.bolango.coin.CoinUtil;
-import org.bolango.coin.ObjectFactory;
-import org.bolango.jade.Initable;
-import org.bolango.naming.NamingService;
-import org.bolango.naming.NamingUtil;
-import org.bolango.service.Namable;
+import org.femtoframework.bean.Initializable;
+import org.femtoframework.bean.Nameable;
+import org.femtoframework.coin.BeanFactory;
+import org.femtoframework.coin.CoinUtil;
+import org.femtoframework.naming.NamingService;
+import org.femtoframework.naming.NamingUtil;
 
 import javax.annotation.ManagedBean;
+import javax.naming.NamingException;
 import java.util.Collection;
 
 /**
@@ -19,7 +19,7 @@ import java.util.Collection;
  */
 @ManagedBean
 public class SimpleCoinContainer
-    implements CoinContainer, Initable, Namable {
+    implements CoinContainer, Initializable, Nameable {
     private String name;
     private NamingService localService;
 
@@ -37,7 +37,11 @@ public class SimpleCoinContainer
      * @return 对象
      */
     public Object getObject(String name) {
-        return CoinUtil.lookup(name);
+        try {
+            return CoinUtil.getModule().getLookup().lookupBean(name);
+        } catch (NamingException e) {
+            throw new IllegalArgumentException("Invalid name:" + name);
+        }
     }
 
     /**
@@ -45,10 +49,10 @@ public class SimpleCoinContainer
      *
      * @return 名字空间集合
      */
-    @Property (name = "namespaces", type = "java.util.Collection", writable = false,
-        desc = "All the namespace of the object factories")
-    public Collection getNamespaces() {
-        return CoinUtil.getObjectFactoryManager().getNamespaces();
+//    @Property(name = "namespaces", type = "java.util.Collection", writable = false,
+//        desc = "All the namespace of the object factories")
+    public Collection<String> getNamespaces() {
+        return CoinUtil.getModule().getNamespaceFactory().getNames();
     }
 
     /**
@@ -56,8 +60,8 @@ public class SimpleCoinContainer
      *
      * @return 对象工厂，如果找不到，返回<code>null</code>
      */
-    public ObjectFactory getBeanFactory(String namespace) {
-        return CoinUtil.getObjectFactory(namespace);
+    public BeanFactory getBeanFactory(String namespace) {
+        return CoinUtil.getModule().getNamespaceFactory().get(namespace).getBeanFactory();
     }
 
     /**
@@ -65,8 +69,8 @@ public class SimpleCoinContainer
      *
      * @return 命名服务
      */
-    @Property (name = "namingService", type = "org.bolango.naming.NamingService", writable = false,
-        desc = "The naming service of the coin container")
+//    @Property (name = "namingService", type = "org.bolango.naming.NamingService", writable = false,
+//        desc = "The naming service of the coin container")
     public NamingService getNamingService() {
         return localService;
     }

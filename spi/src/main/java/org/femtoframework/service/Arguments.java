@@ -14,7 +14,7 @@ import java.util.Locale;
  *          1.00 Apr 27, 2002 6:49:58 PM
  */
 public interface Arguments
-    extends Parameters, ActionElement, StatefulElement
+    extends Parameters<Object>, ActionElement, StatefulElement
 {
     /**
      * 返回要访问的服务器信息，可以是统配符或者是绝对地址

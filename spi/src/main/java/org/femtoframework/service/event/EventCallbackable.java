@@ -1,5 +1,7 @@
 package org.femtoframework.service.event;
 
+import javax.naming.Name;
+
 /**
  * EventCallbackable
  *
@@ -8,23 +10,30 @@ package org.femtoframework.service.event;
  */
 public interface EventCallbackable {
     /**
-     * 添加侦听器
+     * 获取回掉
      *
-     * @param callbackHandler
+     * @return
      */
-    void addCallbackHandler(EventCallbackHandler callbackHandler);
+    Name getCallbackHandlerName();
 
     /**
-     * 获取回掉
+     * 设置回掉
+     *
+     * @param callbackHandlerName CallbackHandler Name
+     */
+    void setCallbackHandlerName(Name callbackHandlerName);
+
+    /**
+     * Return the Event Callback Handler
      *
      * @return
      */
     EventCallbackHandler getCallbackHandler();
 
     /**
-     * 设置回掉
+     * Overwrite Callback Handler
      *
-     * @param callbackHandler
+     * @param callbackHandler Callback Handler
      */
-    void setCallbackHandler(EventCallbackHandler callbackHandler);
+    void _setCallbackHandler(EventCallbackHandler callbackHandler);
 }

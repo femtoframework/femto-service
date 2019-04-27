@@ -42,10 +42,10 @@ public class StubUtil {
      * @throws IllegalArgumentException if implClass implements illegal
      *                                  remote interfaces
      */
-    public static Remote createStub(Class implClass, RemoteRef clientRef) {
+    public static Remote createStub(Class<?> implClass, RemoteRef clientRef) {
         HashSet<Class<?>> unique = new HashSet<>();
-        Class clazz = implClass;
-        Class[] interfaces;
+        Class<?> clazz = implClass;
+        Class<?>[] interfaces;
         while (clazz != Object.class) {
             interfaces = clazz.getInterfaces();
             Collections.addAll(unique, interfaces);

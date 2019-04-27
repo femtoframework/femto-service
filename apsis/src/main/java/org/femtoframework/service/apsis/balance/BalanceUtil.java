@@ -1,9 +1,8 @@
 package org.femtoframework.service.apsis.balance;
 
-import org.bolango.apsis.balance.rmi.BalanceInterceptor;
-import org.bolango.apsis.naming.ApsisNamingConstants;
-import org.bolango.coin.naming.CoinNamingParser;
-import org.bolango.lang.reflect.Reflection;
+import org.femtoframework.coin.naming.CoinNamingParser;
+import org.femtoframework.lang.reflect.Reflection;
+import org.femtoframework.service.apsis.balance.rmi.BalanceInterceptor;
 
 import javax.naming.InvalidNameException;
 import javax.naming.Name;
@@ -20,7 +19,7 @@ import java.util.HashSet;
  */
 public class BalanceUtil
 {
-    private static CoinNamingParser parser = CoinNamingParser.getInstance();
+    private static CoinNamingParser parser = new CoinNamingParser();
 
     /**
      * 根据期望类型，接口数组，远程URI产生负载均衡Stub对象
@@ -37,7 +36,7 @@ public class BalanceUtil
         int index = uri.indexOf("://");
         String scheme = null;
         if (index < 0) {
-            scheme = ApsisNamingConstants.SCHEME;
+            scheme = "coin";
             index = 0;
         }
         else {

@@ -4,13 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.femtoframework.service</groupId>
-        <artifactId>femto-service</artifactId>
+        <groupId>org.femtoframework.namespace</groupId>
+        <artifactId>femto-namespace</artifactId>
         <version>7.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>service-apsis</artifactId>
+    <artifactId>namespace-apsis</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -31,17 +31,17 @@
             <artifactId>femto-i18n</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.femtoframework.service</groupId>
+            <groupId>org.femtoframework.namespace</groupId>
             <artifactId>femto-cube</artifactId>
             <version>7.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>org.femtoframework.service</groupId>
-            <artifactId>service-spi</artifactId>
+            <groupId>org.femtoframework.namespace</groupId>
+            <artifactId>namespace-spi</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.femtoframework.service</groupId>
-            <artifactId>service-rmi</artifactId>
+            <groupId>org.femtoframework.namespace</groupId>
+            <artifactId>namespace-rmi</artifactId>
         </dependency>
         <dependency>
             <groupId>org.femtoframework.coin</groupId>

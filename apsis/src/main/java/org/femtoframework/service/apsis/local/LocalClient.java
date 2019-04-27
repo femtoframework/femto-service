@@ -4,6 +4,7 @@ import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.femtoframework.net.message.*;
 import org.femtoframework.service.ServerID;
 import org.femtoframework.service.apsis.ApsisClient;
+import org.femtoframework.service.apsis.ApsisServerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -107,7 +108,7 @@ public class LocalClient implements ApsisClient
             reqRepPair.setMessageSender(this);
             LocalRequestFuture lrf = new LocalRequestFuture(reqRepPair);
             try {
-                ((MessageListener)ApsisServerUtil.getServer()).onMessage(mm, reqRepPair);
+                ((MessageListener) ApsisServerUtil.getServer()).onMessage(mm, reqRepPair);
             }
             catch (Throwable t) {
                 //如果运行过出错了，那么也需要设置完成,以免客户端无畏等待
