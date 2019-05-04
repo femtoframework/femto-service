@@ -20,7 +20,7 @@ public class CubeKindSpecTest {
 
         Namespace namespace = coinModule.getNamespaceFactory().get(CubeConstants.CUBE);
         ComponentFactory componentFactory = namespace.getComponentFactory();
-        Component component = componentFactory.get(CubeConstants.KIND_SYSTEM);
+        Component component = componentFactory.get(CubeConstants.NAME_SYSTEM);
         assertNotNull(component);
 
     }

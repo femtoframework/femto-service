@@ -1,15 +1,16 @@
-_kind: system
-_version: cube/v7
-platform: STATIC
-servers:
-- type: frontend
-  port: 9168
-  connections:
-  - "gmpp://#backend/?count=2"
-- type: backend
-  port: 9268
-hosts:
-- name: localhost
+kind: System
+apiVersion: cube/v7
+spec:
+  platform: STATIC
   servers:
-  - frontend
-  - backend
+  - type: frontend
+    port: 9168
+    connections:
+    - "gmpp://#backend/?count=2"
+  - type: backend
+    port: 9268
+  hosts:
+  - name: localhost
+    servers:
+    - frontend
+    - backend
