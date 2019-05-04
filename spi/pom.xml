@@ -10,7 +10,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>namespace-spi</artifactId>
+    <artifactId>service-spi</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>

@@ -10,7 +10,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>namespace-rmi</artifactId>
+    <artifactId>service-rmi</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -32,7 +32,7 @@
         </dependency>
         <dependency>
             <groupId>org.femtoframework.service</groupId>
-            <artifactId>namespace-spi</artifactId>
+            <artifactId>service-spi</artifactId>
         </dependency>
         <dependency>
             <groupId>org.femtoframework.coin</groupId>

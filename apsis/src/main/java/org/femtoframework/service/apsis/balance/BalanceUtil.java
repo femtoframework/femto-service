@@ -30,7 +30,7 @@ public class BalanceUtil
      * @param loader       类装载器
      * @return 产生的Stub对象
      */
-    public static Object generate(String expectedType, String[] interfaces, String uri, ClassLoader loader)
+    public static Object generate(String expectedType, ClassLoader loader, String uri, String... interfaces)
         throws Exception
     {
         int index = uri.indexOf("://");
@@ -95,9 +95,9 @@ public class BalanceUtil
      * @param uri          远程URI
      * @return 产生的Stub对象
      */
-    public static Object generate(String expectedType, String[] interfaces, String uri)
+    public static Object generate(String expectedType, String uri, String... interfaces)
         throws Exception
     {
-        return generate(expectedType, interfaces, uri, Reflection.getClassLoader());
+        return generate(expectedType, Reflection.getClassLoader(), uri, interfaces);
     }
 }
