@@ -12,7 +12,7 @@ public interface ApsisConstants
 
     String KIND_APSIS_SERVER = "ApsisServer";
     String KIND_RMI_SERVER = "RmiServer";
-    String KIND_EVENT_SERVER = "EventServr";
+    String KIND_EVENT_SERVER = "EventServer";
     String KIND_GMPP_CONNECTOR = "GmppConnector";
 
     String NAME_APSIS_SERVER = "apsis_server";
@@ -27,5 +27,5 @@ public interface ApsisConstants
     String SUBJECT = "apsis_subject";
     String USER = "apsis_user";
 
-    String SCHEME = "apsis";
+    String SCHEME = "coin";
 }

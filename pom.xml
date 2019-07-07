@@ -49,7 +49,7 @@
       <dependency>
         <groupId>org.femtoframework.coin</groupId>
         <artifactId>coin-core</artifactId>
-        <version>7.0.0-SNAPSHOT</version>
+        <version>7.1.0-SNAPSHOT</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

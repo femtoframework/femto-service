@@ -237,7 +237,7 @@ public class SimpleApsisServer extends LifecycleThread
 
         //如果没有配置executor 那么我们将创建一个
         if (executor == null) {
-            executor = ExecutorUtil.newThreadPool(10, 50, 250);
+            executor = ExecutorUtil.newThreadPool("apsis_thread_pool", 10, 50, 250);
         }
         if (log.isInfoEnabled()) {
             log.info("Apsis Server inited! ");

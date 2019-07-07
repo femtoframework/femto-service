@@ -1,4 +1,8 @@
 apiVersion: apsis/v7
+kind: ApsisServer
+
+---
+apiVersion: apsis/v7
 kind: RmiServer
 
 ---
@@ -9,6 +13,3 @@ kind: EventServer
 apiVersion: apsis/v7
 kind: GmppConnector
 
----
-apiVersion: apsis/v7
-kind: ApsisServer

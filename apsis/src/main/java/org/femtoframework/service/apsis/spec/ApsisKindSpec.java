@@ -48,24 +48,24 @@ public class ApsisKindSpec implements KindSpec {
         ComponentElement compElement = new ComponentElement(map);
         if (ApsisConstants.KIND_APSIS_SERVER.equals(kind)) {
             compElement.setNamespace(ApsisConstants.NAMESPACE_APSIS);
-            compElement.setName(ApsisConstants.KIND_APSIS_SERVER);
+            compElement.setName(ApsisConstants.NAME_APSIS_SERVER);
             compElement.setTypeClass(SimpleApsisServer.class);
         }
         else if (ApsisConstants.KIND_RMI_SERVER.equals(kind)) {
             compElement.setNamespace(ApsisConstants.NAMESPACE_APSIS);
-            compElement.setName(ApsisConstants.KIND_RMI_SERVER);
+            compElement.setName(ApsisConstants.NAME_RMI_SERVER);
             compElement.setTypeClass(RmiServer.class);
             compElement.setBelongsTo("apsis:apsis_server#addServer");
         }
         else if (ApsisConstants.KIND_EVENT_SERVER.equals(kind)) {
             compElement.setNamespace(ApsisConstants.NAMESPACE_APSIS);
-            compElement.setName(ApsisConstants.KIND_EVENT_SERVER);
+            compElement.setName(ApsisConstants.NAME_EVENT_SERVER);
             compElement.setTypeClass(GmppConnector.class);
             compElement.setBelongsTo("apsis:apsis_server#addServer");
         }
         else if (ApsisConstants.KIND_GMPP_CONNECTOR.equals(kind)) {
             compElement.setNamespace(ApsisConstants.NAMESPACE_APSIS);
-            compElement.setName(ApsisConstants.KIND_GMPP_CONNECTOR);
+            compElement.setName(ApsisConstants.NAME_GMPP_CONNECTOR);
             compElement.setTypeClass(GmppConnector.class);
             compElement.setBelongsTo("apsis:apsis_server#addConnector");
         }
