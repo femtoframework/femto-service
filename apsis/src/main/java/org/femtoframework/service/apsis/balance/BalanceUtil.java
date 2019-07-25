@@ -64,6 +64,9 @@ public class BalanceUtil
         HashSet<Class> unique = new HashSet<Class>();
         if (expectedType != null) {
             Class clazz = Reflection.loadClass(loader, expectedType);
+            if (clazz.isInterface()) {
+                unique.add(clazz);
+            }
             Class[] interfaceClasses;
             while (clazz != Object.class && clazz != null) {
                 interfaceClasses = clazz.getInterfaces();

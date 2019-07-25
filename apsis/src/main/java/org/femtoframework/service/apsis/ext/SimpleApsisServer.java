@@ -267,8 +267,8 @@ public class SimpleApsisServer extends LifecycleThread
      * @param message  消息
      */
     public void onMessage(MessageMetadata metadata, Object message) {
-        if (!getBeanPhase().isBefore(BeanPhase.STARTED)) {
-            log.debug("Apsis server is not inited");
+        if (getBeanPhase().isBefore(BeanPhase.STARTED)) {
+            log.debug("Apsis server is not started");
             return;
         }
 

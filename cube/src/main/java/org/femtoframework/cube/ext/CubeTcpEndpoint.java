@@ -2,6 +2,7 @@ package org.femtoframework.cube.ext;
 
 import org.femtoframework.bean.Nameable;
 import org.femtoframework.bean.exception.InitializeException;
+import org.femtoframework.cube.CubeUtil;
 import org.femtoframework.cube.TcpEndpoint;
 import org.femtoframework.cube.util.AddressAllowBean;
 import org.femtoframework.net.HostPort;
@@ -81,7 +82,7 @@ public class CubeTcpEndpoint extends BifurcatedEndpoint
         else {
             setAllow(AddressAllowBean.getLocalNetwork());
         }
-        setSocketHandlerFactory(new CubeSocketHandlerFactory());
+        setSocketHandlerFactory(CubeUtil.getSocketHandlerFactory());
         super._doInit();
     }
 

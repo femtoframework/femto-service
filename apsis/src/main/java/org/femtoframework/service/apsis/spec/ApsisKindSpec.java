@@ -7,6 +7,7 @@ import org.femtoframework.coin.spec.KindSpec;
 import org.femtoframework.coin.spec.MapSpec;
 import org.femtoframework.coin.spec.element.ComponentElement;
 import org.femtoframework.service.apsis.ApsisConstants;
+import org.femtoframework.service.apsis.event.EventServer;
 import org.femtoframework.service.apsis.ext.SimpleApsisServer;
 import org.femtoframework.service.apsis.gmpp.GmppConnector;
 import org.femtoframework.service.apsis.rmi.RmiServer;
@@ -60,7 +61,7 @@ public class ApsisKindSpec implements KindSpec {
         else if (ApsisConstants.KIND_EVENT_SERVER.equals(kind)) {
             compElement.setNamespace(ApsisConstants.NAMESPACE_APSIS);
             compElement.setName(ApsisConstants.NAME_EVENT_SERVER);
-            compElement.setTypeClass(GmppConnector.class);
+            compElement.setTypeClass(EventServer.class);
             compElement.setBelongsTo("apsis:apsis_server#addServer");
         }
         else if (ApsisConstants.KIND_GMPP_CONNECTOR.equals(kind)) {

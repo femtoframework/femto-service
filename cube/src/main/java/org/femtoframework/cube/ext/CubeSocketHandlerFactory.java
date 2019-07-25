@@ -18,6 +18,11 @@ public class CubeSocketHandlerFactory
 
     private final Map<Integer, BifurcatedSocketHandler> map = new HashMap<>();
 
+    {
+        addHandler(new CubeStatusServer());
+        addHandler(new CubeStopServer());
+    }
+
     /**
      * 根据bifurcation返回相应的处理器
      *

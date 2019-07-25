@@ -1,6 +1,8 @@
 package org.femtoframework.service.apsis.gmpp;
 
+import org.femtoframework.bean.BeanPhase;
 import org.femtoframework.bean.Initializable;
+import org.femtoframework.bean.LifecycleMBean;
 import org.femtoframework.bean.Startable;
 import org.femtoframework.bean.annotation.Ignore;
 import org.femtoframework.bean.annotation.Property;
@@ -21,7 +23,7 @@ import org.slf4j.LoggerFactory;
  * @version 1.00 2005-5-22 13:41:36
  */
 public class GmppConnector extends AbstractConnector
-    implements Initializable, Startable {
+    implements LifecycleMBean {
     private MessageListener messageListener;
     private StatusChangeListener statusChangeListener;
     private ApsisClientManager clientMap;
@@ -75,7 +77,7 @@ public class GmppConnector extends AbstractConnector
     /**
      * 启动
      */
-    public void start() {
+    public void _doStart() {
         socketHandler = new GmppSocketHandler(this);
         socketHandler.setLogger(logger);
         socketHandler.setDaemon(daemon);
@@ -137,10 +139,33 @@ public class GmppConnector extends AbstractConnector
     public void setSupportedCodecs(String codecs) {
         socketHandler.setSupportedCodecs(codecs);
     }
+
+    private BeanPhase beanPhase = BeanPhase.DISABLED;
+
+    /**
+     * Implement method of getPhase
+     *
+     * @return BeanPhase
+     */
+    @Override
+    public BeanPhase _doGetPhase() {
+        return beanPhase;
+    }
+
+    /**
+     * Phase setter for internal
+     *
+     * @param phase BeanPhase
+     */
+    @Override
+    public void _doSetPhase(BeanPhase phase) {
+        this.beanPhase = phase;
+    }
+
     /**
      * 初始化
      */
-    public void init() {
+    public void _doInit() {
         //只有对等的服务器才可以用GMPP协议的服务器端连接器
         clientMap = ClientUtil.getManager();
         //Peer服务器会关注客户端的状态

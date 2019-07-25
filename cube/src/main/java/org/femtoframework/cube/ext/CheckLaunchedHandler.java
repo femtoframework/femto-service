@@ -3,6 +3,7 @@ package org.femtoframework.cube.ext;
 import org.femtoframework.io.IOUtil;
 import org.femtoframework.net.socket.SocketHandler;
 import org.femtoframework.net.socket.endpoint.CheckLaunched;
+import org.femtoframework.util.DataUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,7 +52,7 @@ public class CheckLaunchedHandler
     }
 
     private boolean doCheckLaunched() {
-        return Boolean.TRUE == System.getProperties().get("cube.system.launched");
+        return DataUtil.getBoolean(System.getProperty("cube.system.launched"), false);
     }
 
     /**
