@@ -1,23 +1,28 @@
 package org.femtoframework.service.apsis.cube;
 
+import org.femtoframework.bean.BeanStage;
 import org.femtoframework.bean.Startable;
+import org.femtoframework.bean.info.BeanInfo;
+import org.femtoframework.bean.info.BeanInfoUtil;
+import org.femtoframework.bean.info.PropertyInfo;
 import org.femtoframework.coin.CoinUtil;
 import org.femtoframework.cube.CubeUtil;
+import org.femtoframework.cube.spec.ConnectionSpec;
 import org.femtoframework.cube.spec.HostSpec;
 import org.femtoframework.cube.spec.ServerSpec;
+import org.femtoframework.cube.spec.SystemSpec;
+import org.femtoframework.parameters.Parameters;
 import org.femtoframework.service.AbstractConnector;
 import org.femtoframework.service.ServerID;
 import org.femtoframework.service.apsis.ApsisClient;
 import org.femtoframework.service.apsis.ApsisClientManager;
 import org.femtoframework.service.client.ClientUtil;
-import org.femtoframework.util.ArrayUtil;
 import org.femtoframework.util.DataUtil;
+import org.femtoframework.util.StringUtil;
 import org.femtoframework.util.status.StatusChangeSensor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +32,7 @@ import java.util.List;
  * @author <a href="mailto:renex@bolango.cn">rEneX</a>
  * @version 1.00 2005-11-16 18:03:51
  */
-public class CubeConnector extends AbstractConnector
-        implements Startable, Runnable {
+public class CubeConnector extends AbstractConnector implements Startable, Runnable {
 
     protected Logger log = LoggerFactory.getLogger("apsis/cube/connector");
     protected boolean started = false;
@@ -52,8 +56,8 @@ public class CubeConnector extends AbstractConnector
     }
 
 
-    protected void connect(ConnectionSpec conn) {
-        String server = conn.getServer();
+    protected void connect(SystemSpec systemSpec, ConnectionSpec conn) {
+        String server = conn.getServerType();
         String host = conn.getHost();
         List<HostSpec> hosts;
         if ("*".equals(host)) {
@@ -68,31 +72,28 @@ public class CubeConnector extends AbstractConnector
             }
         }
 
+        for (HostSpec hd : hosts) {
+            connect(systemSpec, hd, server, conn);
+        }
+    }
 
-        if (!"*".equals(server)) {
-            for (HostSpec hd : hosts) {
-                ServerSpec sd = hd.getServer(server);
-                if (sd != null) {
-                    connect(hd, sd, conn);
+    protected void connect(SystemSpec system, HostSpec hd, String serverType, ConnectionSpec conn) {
+        List<String> servers = hd.getServers();
+        boolean all = "*".equals(serverType);
+        for (String server : servers) {
+            if (all || StringUtil.equals(server, serverType)) {
+                ServerSpec serverSpec = system.getServer(serverType);
+                if (serverSpec != null) {
+                    connect(hd, serverSpec, conn);
+                }
+                else {
+                    log.error("No such server:" + server);
                 }
             }
         }
-        else {
-            //连接所有拥有该ServerType的HOST
-            for (HostSpec host1 : hosts) {
-                connect(host1, conn);
-            }
-        }
     }
 
-    protected void connect(HostSpec hd, URI conn) {
-        List<String> servers = hd.getServers();
-        for (ServerSpec server : servers) {
-            connect(hd, server, conn);
-        }
-    }
-
-    protected void connect(HostSpec host, ServerSpec server, URI conn) {
+    protected void connect(HostSpec host, ServerSpec server, ConnectionSpec conn) {
         if (host == null || server == null) {
             return;
         }
@@ -115,59 +116,68 @@ public class CubeConnector extends AbstractConnector
         }
 
 
-        String scheme = conn.getString("scheme", "gmpp");
+        String scheme = conn.getUri().getScheme();
+        if (scheme == null) {
+            scheme = "gmpp";
+        }
         if (!local) {
             connect(scheme, ip, port, conn);
         }
     }
 
-    protected void connect(String scheme, String ip, int port, ConnectionDefinition conn) {
-        ApsisClient client;
-        try {
-            client = ClientUtil.createClient(new URI(scheme, null, ip, port, null, null, null));
-        }
-        catch (URISyntaxException e) {
-            log.warn("Synatx exception", e);
-            return;
-        }
+    protected void connect(String scheme, String ip, int port, ConnectionSpec conn) {
+        ApsisClient client = ClientUtil.createClient(conn.getUri());
 
-        if (conn.hasProperty()) {
+        if (!conn.getParameters().isEmpty()) {
             //如果有参数，直接注入给客户
-            try {
-                BeanUtil.setAttributes(client, conn);
-            }
-            catch (Exception ex) {
-                log.warn("Set property exception", ex);
+            BeanInfo beanInfo = BeanInfoUtil.getBeanInfo(client.getClass());
+            Parameters<Object> parameters = conn.getParameters();
+            for(String key: parameters.keySet()) {
+                Object value = parameters.get(key);
+                PropertyInfo propertyInfo = beanInfo.getProperty(key);
+                if (propertyInfo != null) {
+                    try {
+                        propertyInfo.invokeSetter(conn, value);
+                    }
+                    catch (Exception ex) {
+                        log.warn("Set property exception", ex);
+                    }
+                }
             }
         }
         if (client instanceof StatusChangeSensor) {
             ((StatusChangeSensor)client).addStatusChangeListener(
                     ((ApsisClientManager) ClientUtil.getManager()).getStatusChangeListener());
         }
-        CoinUtil.deployObject(client);
+        CoinUtil.getModule().getLifecycleStrategy().ensure(client, BeanStage.START);
     }
 
     @Override
     public void run() {
         while (!isLaunched()) {
-            Jade.sleep(100);
+            try {
+                Thread.sleep(100);
+            }
+            catch(Exception ex) {
+                //Ignore
+            }
         }
         ServerSpec sd = CubeUtil.getCurrentServer();
         if (sd == null) {
             return;
         }
-        if (log.isDebug()) {
-            log.debug("Start CubeConnector...");
+        if (log.isInfoEnabled()) {
+            log.info("Start CubeConnector...");
         }
-        ConnectionDefinition[] conns = sd.getConnections();
-        if (ArrayUtil.isValid(conns)) {
-            for (ConnectionDefinition conn : conns) {
-                connect(conn);
+        List<ConnectionSpec> conns = sd.getConnectionSpecs();
+        if (!conns.isEmpty()) {
+            for (ConnectionSpec conn : conns) {
+                connect(CubeUtil.getSystemSpec(), conn);
             }
         }
         started = true;
-        if (log.isDebugEnabled()) {
-            log.debug("CubeConnector started!");
+        if (log.isInfoEnabled()) {
+            log.info("CubeConnector started!");
         }
     }
 }

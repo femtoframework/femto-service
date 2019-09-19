@@ -6,7 +6,7 @@ spec:
   - type: frontend
     port: 9168
     connections:
-    - "gmpp://#backend/?count=2"
+    - "gmpp:///backend?count=2"
   - type: backend
     port: 9268
   hosts:

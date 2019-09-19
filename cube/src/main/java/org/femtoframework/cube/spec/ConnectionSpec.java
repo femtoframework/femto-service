@@ -21,6 +21,24 @@ public class ConnectionSpec {
         parse();
     }
 
+    public String getHost() {
+        String host = uri != null ? uri.getHost() : null;
+        return host == null ? "*" : host;
+    }
+
+    public String getServerType() {
+        String path = uri != null ? uri.getPath() : null;
+        if (path != null) {
+            if (path.startsWith("/")) {
+                return path.substring(1);
+            }
+            else {
+                return path;
+            }
+        }
+        return null;
+    }
+
     public URI getUri() {
         return uri;
     }
