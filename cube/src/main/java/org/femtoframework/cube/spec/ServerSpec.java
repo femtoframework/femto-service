@@ -1,5 +1,10 @@
 package org.femtoframework.cube.spec;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,6 +20,8 @@ public class ServerSpec
     private int port;
 
     private List<String> connections;
+
+    private static Logger log = LoggerFactory.getLogger(ServerSpec.class);
 
     /**
      * 返回服务器类型
@@ -46,6 +53,20 @@ public class ServerSpec
         else {
             return Collections.emptyList();
         }
+    }
+
+    public List<ConnectionSpec> getConnectionSpecs() {
+        List<String> connStrs = getConnections();
+        List<ConnectionSpec> specs = new ArrayList<>(connStrs.size());
+        for(String str: connStrs) {
+            try {
+                specs.add(new ConnectionSpec(str));
+            }
+            catch(URISyntaxException use) {
+                log.warn("Connection URI syntax error:" + use.getInput(), use);
+            }
+        }
+        return specs;
     }
 
     /**
