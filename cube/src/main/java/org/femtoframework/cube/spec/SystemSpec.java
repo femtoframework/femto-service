@@ -77,9 +77,14 @@ public class SystemSpec implements NamedBean, Nameable {
             while (values.hasNext()) {
                 HostSpec def = values.next();
                 address = def.getAddress();
-                //如果是127.0.0.1，则采用主机名对应的IP地址作为因子
-                if ("127.0.0.1".equals(address) && localAddress.getHostName().equals(def.getName())) {
+                if (address == null) {
                     address = localAddress.getHostAddress();
+                }
+                else {
+                    //如果是127.0.0.1，则采用主机名对应的IP地址作为因子
+                    if ("127.0.0.1".equals(address) && localAddress.getHostName().equals(def.getName())) {
+                        address = localAddress.getHostAddress();
+                    }
                 }
                 c += getIdFromAddress(address);
             }
