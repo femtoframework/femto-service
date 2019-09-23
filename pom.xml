@@ -22,6 +22,7 @@
     <module>spi</module>
     <module>rmi</module>
     <module>apsis</module>
+    <module>k8s</module>
   </modules>
 
   <dependencyManagement>

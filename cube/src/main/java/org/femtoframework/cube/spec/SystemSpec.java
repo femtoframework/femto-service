@@ -3,12 +3,14 @@ package org.femtoframework.cube.spec;
 import org.femtoframework.bean.Nameable;
 import org.femtoframework.bean.NamedBean;
 import org.femtoframework.cube.CubeConstants;
+import org.femtoframework.cube.CubeUtil;
 import org.femtoframework.net.InetAddressUtil;
 import org.femtoframework.parameters.Parameters;
 import org.femtoframework.util.StringUtil;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class SystemSpec implements NamedBean, Nameable {
      */
     private String id;
 
-    private List<HostSpec> hosts = new ArrayList<>();
+//    private List<HostSpec> hosts = new ArrayList<>();
     private List<ServerSpec> servers = new ArrayList<>();
 
     private HostSpec host = null;
@@ -71,27 +73,27 @@ public class SystemSpec implements NamedBean, Nameable {
     private int getInternalId() {
         int c = 0;
         InetAddress localAddress = InetAddressUtil.getLocalAddress();
-        if (!hosts.isEmpty()) {
-            Iterator<HostSpec> values = hosts.iterator();
-            String address;
-            while (values.hasNext()) {
-                HostSpec def = values.next();
-                address = def.getAddress();
-                if (address == null) {
-                    address = localAddress.getHostAddress();
-                }
-                else {
-                    //如果是127.0.0.1，则采用主机名对应的IP地址作为因子
-                    if ("127.0.0.1".equals(address) && localAddress.getHostName().equals(def.getName())) {
-                        address = localAddress.getHostAddress();
-                    }
-                }
-                c += getIdFromAddress(address);
-            }
-        }
-        else {
+//        if (!hosts.isEmpty()) {
+//            Iterator<HostSpec> values = hosts.iterator();
+//            String address;
+//            while (values.hasNext()) {
+//                HostSpec def = values.next();
+//                address = def.getAddress();
+//                if (address == null) {
+//                    address = localAddress.getHostAddress();
+//                }
+//                else {
+//                    //如果是127.0.0.1，则采用主机名对应的IP地址作为因子
+//                    if ("127.0.0.1".equals(address) && localAddress.getHostName().equals(def.getName())) {
+//                        address = localAddress.getHostAddress();
+//                    }
+//                }
+//                c += getIdFromAddress(address);
+//            }
+//        }
+//        else {
             c = getIdFromAddress(localAddress.getHostAddress());
-        }
+//        }
         return c & 0xFF;
     }
 
@@ -100,53 +102,53 @@ public class SystemSpec implements NamedBean, Nameable {
         return Integer.parseInt(address.substring(i + 1));
     }
 
-    /**
-     * 返回所有的主机
-     *
-     * @return 所有的主机
-     */
-    public List<HostSpec> getHosts() {
-        return hosts;
-    }
+//    /**
+//     * 返回所有的主机
+//     *
+//     * @return 所有的主机
+//     */
+//    public List<HostSpec> getHosts() {
+//        return hosts;
+//    }
 
-    /**
-     * 返回所有拥有相应服务器类型的主机
-     *
-     * @return 所有的主机
-     */
-    public List<HostSpec> getHostsByServer(String server) {
-        List<HostSpec> list = new ArrayList<>();
-        for (HostSpec hostSpec: hosts) {
-            if (hostSpec.getServers().contains(server)) {
-                list.add(hostSpec);
-            }
-        }
-        return list;
-    }
+//    /**
+//     * 返回所有拥有相应服务器类型的主机
+//     *
+//     * @return 所有的主机
+//     */
+//    public List<HostSpec> getHostsByServer(String server) {
+//        List<HostSpec> list = new ArrayList<>();
+//        for (HostSpec hostSpec: hosts) {
+//            if (hostSpec.getServers().contains(server)) {
+//                list.add(hostSpec);
+//            }
+//        }
+//        return list;
+//    }
 
-    /**
-     * 添加主机
-     *
-     * @param host 主机
-     */
-    public void addHost(HostSpec host) {
-        hosts.add(host);
-    }
-
-    /**
-     * 根据主机名返回主机
-     *
-     * @param name 主机名
-     * @return 主机
-     */
-    public HostSpec getHost(String name) {
-        for(HostSpec hostSpec: hosts) {
-            if (StringUtil.equals(hostSpec.getName(), name)) {
-                return hostSpec;
-            }
-        }
-        return null;
-    }
+//    /**
+//     * 添加主机
+//     *
+//     * @param host 主机
+//     */
+//    public void addHost(HostSpec host) {
+//        hosts.add(host);
+//    }
+//
+//    /**
+//     * 根据主机名返回主机
+//     *
+//     * @param name 主机名
+//     * @return 主机
+//     */
+//    public HostSpec getHost(String name) {
+//        for(HostSpec hostSpec: hosts) {
+//            if (StringUtil.equals(hostSpec.getName(), name)) {
+//                return hostSpec;
+//            }
+//        }
+//        return null;
+//    }
 
     /**
      * 添加服务器
@@ -188,7 +190,7 @@ public class SystemSpec implements NamedBean, Nameable {
      */
     public ServerSpec getCurrentServer() {
         if (server == null) {
-            String serverType = System.getProperty("cube.system.type");
+            String serverType = CubeUtil.getServerType();
             server = getServer(serverType);
         }
         return server;
@@ -202,7 +204,27 @@ public class SystemSpec implements NamedBean, Nameable {
     public HostSpec getCurrentHost() {
         if (host == null) {
             String hostName = System.getProperty("cube.system.host");
-            host = getHost(hostName);
+            if (hostName == null) {
+                hostName = System.getenv("CUBE_SYSTEM_HOST");
+                if (hostName == null) {
+                    hostName = "localhost";
+                }
+            }
+
+            String address = System.getProperty("cube.system.address");
+            if (address == null) {
+                address = System.getenv("CUBE_SYSTEM_ADDRESS");
+                if (address == null) {
+                    address  = "127.0.0.1";
+                }
+            }
+            HostSpec host = new HostSpec();
+            host.setName(hostName);
+            host.setAddress(address);
+            host.setServers(Collections.singletonList(getCurrentServer().getType()));
+            //TODO
+//            host = getHost(hostName);
+            this.host = host;
         }
         return host;
     }
@@ -236,9 +258,9 @@ public class SystemSpec implements NamedBean, Nameable {
         this.platform = platform;
     }
 
-    public void setHosts(List<HostSpec> hosts) {
-        this.hosts = hosts;
-    }
+//    public void setHosts(List<HostSpec> hosts) {
+//        this.hosts = hosts;
+//    }
 
     public void setServers(List<ServerSpec> servers) {
         this.servers = servers;

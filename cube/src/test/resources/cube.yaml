@@ -9,8 +9,3 @@ spec:
     - "gmpp:///backend?count=2"
   - type: backend
     port: 9268
-  hosts:
-  - name: localhost
-    servers:
-    - frontend
-    - backend

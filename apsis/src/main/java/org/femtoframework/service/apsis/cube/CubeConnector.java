@@ -57,24 +57,26 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
 
 
     protected void connect(SystemSpec systemSpec, ConnectionSpec conn) {
-        String server = conn.getServerType();
-        String host = conn.getHost();
-        List<HostSpec> hosts;
-        if ("*".equals(host)) {
-            hosts = CubeUtil.getHosts();
-        }
-        else {
-            host = host.replace(',', ';');
-            String[] hs = DataUtil.toStrings(host, ';');
-            hosts = new ArrayList<>(hs.length);
-            for (int i = 0; i < hs.length; i++) {
-                hosts.add(CubeUtil.getHost(hs[i]));
-            }
-        }
+        //TODO host list should be loaded from other resources such as K8S
 
-        for (HostSpec hd : hosts) {
-            connect(systemSpec, hd, server, conn);
-        }
+//        String server = conn.getServerType();
+//        String host = conn.getHost();
+//        List<HostSpec> hosts;
+//        if ("*".equals(host)) {
+//            hosts = CubeUtil.getHosts();
+//        }
+//        else {
+//            host = host.replace(',', ';');
+//            String[] hs = DataUtil.toStrings(host, ';');
+//            hosts = new ArrayList<>(hs.length);
+//            for (int i = 0; i < hs.length; i++) {
+//                hosts.add(CubeUtil.getHost(hs[i]));
+//            }
+//        }
+//
+//        for (HostSpec hd : hosts) {
+//            connect(systemSpec, hd, server, conn);
+//        }
     }
 
     protected void connect(SystemSpec system, HostSpec hd, String serverType, ConnectionSpec conn) {

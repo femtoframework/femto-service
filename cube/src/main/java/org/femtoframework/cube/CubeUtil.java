@@ -65,26 +65,26 @@ public class CubeUtil
         return getSystemSpec().getId();
     }
 
-    /**
-     * 返回所有的主机
-     *
-     * @return 所有的主机
-     */
-    public static List<HostSpec> getHosts()
-    {
-        return getSystemSpec().getHosts();
-    }
+//    /**
+//     * 返回所有的主机
+//     *
+//     * @return 所有的主机
+//     */
+//    public static List<HostSpec> getHosts()
+//    {
+//        return getSystemSpec().getHosts();
+//    }
 
-    /**
-     * 根据主机名返回主机
-     *
-     * @param name 主机名
-     * @return 主机
-     */
-    public static HostSpec getHost(String name)
-    {
-        return getSystemSpec().getHost(name);
-    }
+//    /**
+//     * 根据主机名返回主机
+//     *
+//     * @param name 主机名
+//     * @return 主机
+//     */
+//    public static HostSpec getHost(String name)
+//    {
+//        return getSystemSpec().getHost(name);
+//    }
 
     /**
      * 返回所有的服务器定义
@@ -135,5 +135,22 @@ public class CubeUtil
     public static AppServer getAppServer()
     {
         return getModule().getAppServer();
+    }
+
+
+    /**
+     * Get Server Type
+     *
+     * @return Get Server Type
+     */
+    public static String getServerType() {
+        String serverType = System.getenv("CUBE_SYSTEM_TYPE");
+        if (serverType == null) {
+            serverType = System.getProperty("cube.system.type");
+            if (serverType == null) {
+                throw new IllegalStateException("No environment 'CUBE_SYSTEM_TYPE' or property 'cube.system.type' specified");
+            }
+        }
+        return serverType;
     }
 }

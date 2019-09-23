@@ -1,9 +1,7 @@
 package org.femtoframework.service.apsis.client;
 
 import org.femtoframework.bean.Startable;
-import org.femtoframework.coin.CoinUtil;
 import org.femtoframework.cube.CubeUtil;
-import org.femtoframework.cube.spec.HostSpec;
 import org.femtoframework.cube.spec.ServerSpec;
 import org.femtoframework.net.HostPort;
 import org.femtoframework.net.comm.CommConstants;
@@ -15,6 +13,7 @@ import org.femtoframework.service.apsis.gmpp.GmppApsisClientFactory;
 import org.femtoframework.service.apsis.local.LocalClient;
 import org.femtoframework.service.client.AbstractClientManager;
 import org.femtoframework.service.client.Balancer;
+import org.femtoframework.service.client.ClientList;
 import org.femtoframework.util.status.StatusChangeListener;
 import org.femtoframework.util.status.StatusChangeSensor;
 import org.femtoframework.util.status.StatusChangeSupport;
@@ -24,7 +23,6 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 
 /**
  * Apsis客户端映射
@@ -143,22 +141,12 @@ public class SimpleApsisClientManager extends AbstractClientManager<ApsisClient>
 
     @Override
     public int getClientCount(String appType) {
-        List<HostSpec> hds = CubeUtil.getHosts();
-        int count = 0;
-        //确认是否已经连接
-        for (HostSpec hd : hds) {
-            List<String> servers = hd.getServers();
-            if (servers.contains(appType)) {
-                ServerSpec serverSpec = CubeUtil.getServer(appType);
-                if (serverSpec != null) {
-                    //尝试去建立连接
-                    if (getClient(hd.getAddress(), serverSpec.getPort(), true) != null) {
-                        count++;
-                    }
-                }
-            }
+        ServerSpec serverSpec = CubeUtil.getServer(appType);
+        if (serverSpec != null) {
+            ClientList list = getClients(serverSpec.getType());
+            return list != null ? list.getCount() : 0;
         }
-        return count;
+        return 0;
     }
 
     @Override

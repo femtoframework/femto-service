@@ -19,10 +19,10 @@ import java.util.List;
  */
 public class CubeServerDeployer implements LauncherListener
 {
-    /**
-     * 主机名
-     */
-    private String hostName;
+//    /**
+//     * 主机名
+//     */
+//    private String hostName;
 
     /**
      * 服务器类型
@@ -48,19 +48,20 @@ public class CubeServerDeployer implements LauncherListener
      * 初始化实现
      */
     protected void initServer() {
-        this.hostName = System.getProperty("cube.system.host");
 
         system = CubeUtil.getSystemSpec();
-        host = system.getHost(hostName);
-        if (host == null) {
-            host = system.getHost("localhost");
-            if (host == null) {
-                System.err.println("[CUBE]The host:" + hostName + " can't be found in the yaml.");
-                System.exit(0);
-            }
-        }
+//        this.hostName = .getName();
 
-        server = system.getServer(serverType);
+        host = system.getCurrentHost();
+//        if (host == null) {
+//            host = system.getHost("localhost");
+//            if (host == null) {
+//                System.err.println("[CUBE]The host:" + hostName + " can't be found in the yaml.");
+//                System.exit(0);
+//            }
+//        }
+
+        server = system.getCurrentServer();
         if (server == null) {
             System.err.println("[CUBE]The server type:" + serverType + " can't be found in the yaml.");
             System.exit(0);
@@ -109,20 +110,12 @@ public class CubeServerDeployer implements LauncherListener
      */
     @Override
     public void onAfterLoadingYamlFiles(List<URI> yamlFiles) {
-        serverType = System.getenv("CUBE_SYSTEM_TYPE");
-        if (serverType == null) {
-            serverType = System.getProperty("cube.system.type");
-        }
-        if (serverType == null) {
-            throw new IllegalStateException("No environment 'CUBE_SYSTEM_TYPE' or property 'cube.system.type' specified");
-        }
-
+        serverType = CubeUtil.getServerType();
         System.setProperty("cube.system.type", serverType);
 
         initServer();
 
         initDefaultProperties();
-
 
         startServer();
     }
