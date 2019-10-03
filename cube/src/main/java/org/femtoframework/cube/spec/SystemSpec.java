@@ -30,6 +30,8 @@ public class SystemSpec implements NamedBean, Nameable {
      */
     private String id;
 
+    private String current;
+
 //    private List<HostSpec> hosts = new ArrayList<>();
     private List<ServerSpec> servers = new ArrayList<>();
 
@@ -190,8 +192,7 @@ public class SystemSpec implements NamedBean, Nameable {
      */
     public ServerSpec getCurrentServer() {
         if (server == null) {
-            String serverType = CubeUtil.getServerType();
-            server = getServer(serverType);
+            server = getServer(getCurrent());
         }
         return server;
     }
@@ -264,5 +265,19 @@ public class SystemSpec implements NamedBean, Nameable {
 
     public void setServers(List<ServerSpec> servers) {
         this.servers = servers;
+    }
+
+    /**
+     * Current Server;
+     */
+    public String getCurrent() {
+        if (current == null) {
+            current = CubeUtil.getServerType();
+        }
+        return current;
+    }
+
+    public void setCurrent(String current) {
+        this.current = current;
     }
 }

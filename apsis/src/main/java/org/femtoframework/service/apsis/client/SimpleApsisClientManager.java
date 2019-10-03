@@ -1,6 +1,8 @@
 package org.femtoframework.service.apsis.client;
 
+import org.femtoframework.bean.BeanStage;
 import org.femtoframework.bean.Startable;
+import org.femtoframework.coin.CoinUtil;
 import org.femtoframework.cube.CubeUtil;
 import org.femtoframework.cube.spec.ServerSpec;
 import org.femtoframework.net.HostPort;
@@ -81,9 +83,6 @@ public class SimpleApsisClientManager extends AbstractClientManager<ApsisClient>
         ApsisClient client = null;
         String scheme = "gmpp";
         InetAddress addr = address.getAddress();
-//        if (addr.isMulticastAddress()) { //请求的是组播
-//            scheme = "group";
-//        }
         try {
             client = createClient(new URI(scheme, null, addr.getHostAddress(), address.getPort(),
                 null, null, null));
@@ -94,9 +93,8 @@ public class SimpleApsisClientManager extends AbstractClientManager<ApsisClient>
         if (client instanceof StatusChangeSensor) {
             ((StatusChangeSensor)client).addStatusChangeListener(getStatusChangeListener());
         }
-        if (client instanceof Startable) {
-            ((Startable)client).start();
-        }
+
+        CoinUtil.getModule().getLifecycleStrategy().ensure(client, BeanStage.START);
         return client;
     }
 

@@ -146,9 +146,12 @@ public class CubeUtil
     public static String getServerType() {
         String serverType = System.getenv("CUBE_SYSTEM_TYPE");
         if (serverType == null) {
-            serverType = System.getProperty("cube.system.type");
+            serverType = System.getenv("APP_NAME");
             if (serverType == null) {
-                throw new IllegalStateException("No environment 'CUBE_SYSTEM_TYPE' or property 'cube.system.type' specified");
+                serverType = System.getProperty("cube.system.type");
+                if (serverType == null) {
+                    throw new IllegalStateException("No environment 'CUBE_SYSTEM_TYPE' or property 'cube.system.type' specified");
+                }
             }
         }
         return serverType;
