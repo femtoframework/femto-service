@@ -13,3 +13,6 @@ kind: EventServer
 apiVersion: apsis/v7
 kind: GmppConnector
 
+---
+apiVersion: apsis/v7
+kind: K8sConnector
