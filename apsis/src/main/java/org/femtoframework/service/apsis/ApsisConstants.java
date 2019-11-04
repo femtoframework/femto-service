@@ -14,11 +14,13 @@ public interface ApsisConstants
     String KIND_RMI_SERVER = "RmiServer";
     String KIND_EVENT_SERVER = "EventServer";
     String KIND_GMPP_CONNECTOR = "GmppConnector";
+    String KIND_K8S_CONNECTOR = "K8sConnector";
 
     String NAME_APSIS_SERVER = "apsis_server";
     String NAME_RMI_SERVER = "rmi";
     String NAME_EVENT_SERVER = "event";
     String NAME_GMPP_CONNECTOR = "gmpp_server";
+    String NAME_K8S_CONNECTOR = "k8s_server";
 
     String NAMESPACE_APSIS = "apsis";
 

@@ -10,6 +10,7 @@ import org.femtoframework.service.apsis.ApsisConstants;
 import org.femtoframework.service.apsis.event.EventServer;
 import org.femtoframework.service.apsis.ext.SimpleApsisServer;
 import org.femtoframework.service.apsis.gmpp.GmppConnector;
+import org.femtoframework.service.apsis.k8s.K8sConnector;
 import org.femtoframework.service.apsis.rmi.RmiServer;
 
 import java.util.Map;
@@ -68,6 +69,12 @@ public class ApsisKindSpec implements KindSpec {
             compElement.setNamespace(ApsisConstants.NAMESPACE_APSIS);
             compElement.setName(ApsisConstants.NAME_GMPP_CONNECTOR);
             compElement.setTypeClass(GmppConnector.class);
+            compElement.setBelongsTo("apsis:apsis_server#addConnector");
+        }
+        else if (ApsisConstants.KIND_K8S_CONNECTOR.equals(kind)) {
+            compElement.setNamespace(ApsisConstants.NAMESPACE_APSIS);
+            compElement.setName(ApsisConstants.NAME_K8S_CONNECTOR);
+            compElement.setTypeClass(K8sConnector.class);
             compElement.setBelongsTo("apsis:apsis_server#addConnector");
         }
         else {

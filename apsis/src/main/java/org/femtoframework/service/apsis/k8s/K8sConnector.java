@@ -1,4 +1,4 @@
-package org.femtoframework.service.k8s;
+package org.femtoframework.service.apsis.k8s;
 
 import org.femtoframework.cube.spec.ConnectionSpec;
 import org.femtoframework.cube.spec.SystemSpec;
@@ -13,11 +13,11 @@ import java.net.UnknownHostException;
 /**
  * K8s Service
  */
-public class K8sServiceConnector extends CubeConnector {
+public class K8sConnector extends CubeConnector {
 
     public static final int DEFAULT_PORT = 9168;
 
-    private static Logger log = LoggerFactory.getLogger(K8sServiceConnector.class);
+    private static Logger log = LoggerFactory.getLogger(K8sConnector.class);
 
     protected void connect(SystemSpec systemSpec, ConnectionSpec conn) {
         //Service Type
