@@ -32,6 +32,18 @@
             <artifactId>femto-i18n</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.femtoframework.net</groupId>
+            <artifactId>femto-net</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.femtoframework.service</groupId>
+            <artifactId>service-spi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.femtoframework.service</groupId>
+            <artifactId>service-apsis</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.femtoframework.coin</groupId>
             <artifactId>coin-core</artifactId>
             <scope>test</scope>

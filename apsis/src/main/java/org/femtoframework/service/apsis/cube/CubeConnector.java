@@ -22,6 +22,8 @@ import org.femtoframework.util.status.StatusChangeSensor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -126,7 +128,15 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
     }
 
     protected void connect(String scheme, String ip, int port, ConnectionSpec conn) {
-        ApsisClient client = ClientUtil.createClient(conn.getUri());
+        URI origUri = conn.getUri();
+        URI uri = null;
+        try {
+            uri = new URI(scheme, "", ip, port,origUri.getPath(), origUri.getQuery(),  origUri.getFragment());
+        } catch (URISyntaxException e) {
+            throw new IllegalStateException("URI syntax error");
+        }
+
+        ApsisClient client = ClientUtil.createClient(uri);
 
         if (!conn.getParameters().isEmpty()) {
             //如果有参数，直接注入给客户
