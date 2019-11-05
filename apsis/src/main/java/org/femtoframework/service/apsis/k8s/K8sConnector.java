@@ -23,6 +23,14 @@ public class K8sConnector extends CubeConnector {
         //Service Type
         URI uri = conn.getUri();
         String serviceType = uri.getPath();
+        serviceType = serviceType.trim();
+        if (serviceType.startsWith("/")) {
+            serviceType = serviceType.substring(1);
+        }
+        if (serviceType.isEmpty()) {
+            log.warn("The target service isn't specified, ignore this service:" + uri);
+            return;
+        }
         int port = uri.getPort();
         if (port <= 0) {
             port = DEFAULT_PORT;
