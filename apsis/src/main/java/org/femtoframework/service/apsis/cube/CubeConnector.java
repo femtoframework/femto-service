@@ -184,6 +184,9 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
         if (!conns.isEmpty()) {
             for (ConnectionSpec conn : conns) {
                 connect(CubeUtil.getSystemSpec(), conn);
+                if (log.isInfoEnabled()) {
+                    log.info("Connection to:" + conn.getUri() + " created.");
+                }
             }
         }
         started = true;
