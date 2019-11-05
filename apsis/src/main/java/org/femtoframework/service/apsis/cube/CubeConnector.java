@@ -17,6 +17,7 @@ import org.femtoframework.service.ServerID;
 import org.femtoframework.service.apsis.ApsisClient;
 import org.femtoframework.service.apsis.ApsisClientManager;
 import org.femtoframework.service.client.ClientUtil;
+import org.femtoframework.util.DataUtil;
 import org.femtoframework.util.StringUtil;
 import org.femtoframework.util.status.StatusChangeSensor;
 import org.slf4j.Logger;
@@ -52,7 +53,7 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
 
 
     protected boolean isLaunched() {
-        return Boolean.TRUE == System.getProperties().get("cube.system.launched");
+        return DataUtil.getBoolean(System.getProperties().get("cube.system.launched"), false);
     }
 
 
