@@ -17,10 +17,10 @@ public interface ApsisConstants
     String KIND_K8S_CONNECTOR = "K8sConnector";
 
     String NAME_APSIS_SERVER = "apsis_server";
-    String NAME_RMI_SERVER = "rmi";
-    String NAME_EVENT_SERVER = "event";
-    String NAME_GMPP_CONNECTOR = "gmpp_server";
-    String NAME_K8S_CONNECTOR = "k8s_server";
+    String NAME_RMI_SERVER = "rmi_server";
+    String NAME_EVENT_SERVER = "event_server";
+    String NAME_GMPP_CONNECTOR = "gmpp_connector";
+    String NAME_K8S_CONNECTOR = "k8s_connector";
 
     String NAMESPACE_APSIS = "apsis";
 
