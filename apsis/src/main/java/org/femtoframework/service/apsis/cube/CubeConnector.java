@@ -38,6 +38,8 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
     protected Logger log = LoggerFactory.getLogger("apsis/cube/connector");
     protected boolean started = false;
 
+    private int interval = 10 * 1000;
+
     /**
      * 启动
      */
@@ -129,38 +131,40 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
     }
 
     protected void connect(String scheme, String ip, int port, ConnectionSpec conn) {
-        URI origUri = conn.getUri();
-        URI uri = null;
-        try {
-            uri = new URI(scheme, "", ip, port,origUri.getPath(), origUri.getQuery(),  origUri.getFragment());
-        } catch (URISyntaxException e) {
-            throw new IllegalStateException("URI syntax error");
-        }
+        ApsisClient client = ClientUtil.getClient(ip, port, false);
+        if (client == null || !client.isAlive()) {
+            URI origUri = conn.getUri();
+            URI uri = null;
+            try {
+                uri = new URI(scheme, "", ip, port,origUri.getPath(), origUri.getQuery(),  origUri.getFragment());
+            } catch (URISyntaxException e) {
+                throw new IllegalStateException("URI syntax error");
+            }
 
-        ApsisClient client = ClientUtil.createClient(uri);
-
-        if (!conn.getParameters().isEmpty()) {
-            //如果有参数，直接注入给客户
-            BeanInfo beanInfo = BeanInfoUtil.getBeanInfo(client.getClass());
-            Parameters<Object> parameters = conn.getParameters();
-            for(String key: parameters.keySet()) {
-                Object value = parameters.get(key);
-                PropertyInfo propertyInfo = beanInfo.getProperty(key);
-                if (propertyInfo != null) {
-                    try {
-                        propertyInfo.invokeSetter(conn, value);
-                    }
-                    catch (Exception ex) {
-                        log.warn("Set property exception", ex);
+            client = ClientUtil.createClient(uri);
+            if (!conn.getParameters().isEmpty()) {
+                //如果有参数，直接注入给客户
+                BeanInfo beanInfo = BeanInfoUtil.getBeanInfo(client.getClass());
+                Parameters<Object> parameters = conn.getParameters();
+                for(String key: parameters.keySet()) {
+                    Object value = parameters.get(key);
+                    PropertyInfo propertyInfo = beanInfo.getProperty(key);
+                    if (propertyInfo != null) {
+                        try {
+                            propertyInfo.invokeSetter(conn, value);
+                        }
+                        catch (Exception ex) {
+                            log.warn("Set property exception", ex);
+                        }
                     }
                 }
             }
+            if (client instanceof StatusChangeSensor) {
+                ((StatusChangeSensor)client).addStatusChangeListener(
+                        ((ApsisClientManager) ClientUtil.getManager()).getStatusChangeListener());
+            }
+            CoinUtil.getModule().getLifecycleStrategy().ensure(client, BeanStage.START);
         }
-        if (client instanceof StatusChangeSensor) {
-            ((StatusChangeSensor)client).addStatusChangeListener(
-                    ((ApsisClientManager) ClientUtil.getManager()).getStatusChangeListener());
-        }
-        CoinUtil.getModule().getLifecycleStrategy().ensure(client, BeanStage.START);
     }
 
     @Override
@@ -177,9 +181,32 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
         if (sd == null) {
             return;
         }
+
         if (log.isInfoEnabled()) {
             log.info("Start CubeConnector...");
         }
+
+        keepAlive();
+
+        started = true;
+        if (log.isInfoEnabled()) {
+            log.info("CubeConnector started!");
+        }
+
+        while(started) {
+            try {
+                Thread.sleep(interval);
+            }
+            catch(Exception ex) {
+                //Ignore
+            }
+
+            keepAlive();
+        }
+    }
+
+    public void keepAlive() {
+        ServerSpec sd = CubeUtil.getCurrentServer();
         List<ConnectionSpec> conns = sd.getConnectionSpecs();
         if (!conns.isEmpty()) {
             for (ConnectionSpec conn : conns) {
@@ -189,10 +216,14 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
                 }
             }
         }
-        started = true;
-        if (log.isInfoEnabled()) {
-            log.info("CubeConnector started!");
-        }
+    }
+
+    public int getInterval() {
+        return interval;
+    }
+
+    public void setInterval(int interval) {
+        this.interval = interval;
     }
 }
 
