@@ -188,6 +188,14 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
             log.info("CubeConnector started!");
         }
 
+        //Give 1 minutes to let the connections created
+        try {
+            Thread.sleep(interval*6);
+        }
+        catch(Exception ex) {
+            //Ignore
+        }
+
         while(started) {
             try {
                 Thread.sleep(interval);
