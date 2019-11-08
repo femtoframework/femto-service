@@ -137,7 +137,7 @@ public class CoinNamingService extends AbstractNamingService
                     result = new CoinNamingContext(null, name, this);
                 }
                 else {
-                    throw new NotContextException();
+                    throw new NotContextException("Name:" + name);
                 }
             }
         }
