@@ -111,15 +111,6 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
             String localType = CubeUtil.getCurrentServer().getType();
             local = localType.equals(serverType);
         }
-        if (log.isDebugEnabled()) {
-            if (local) {
-                log.debug("Connect to local server");
-            }
-            else {
-                log.debug("Connect to " + ip + ':' + port + '#' + serverType);
-            }
-        }
-
 
         String scheme = conn.getUri().getScheme();
         if (scheme == null) {
@@ -142,6 +133,10 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
             }
 
             client = ClientUtil.createClient(uri);
+            if (log.isDebugEnabled()) {
+                log.debug("Connect to " + ip + ':' + port + '#' + conn.getServerType());
+            }
+
             if (!conn.getParameters().isEmpty()) {
                 //如果有参数，直接注入给客户
                 BeanInfo beanInfo = BeanInfoUtil.getBeanInfo(client.getClass());
