@@ -89,7 +89,8 @@ public class CubeServerDeployer implements LauncherListener
      */
     @Override
     public void onBeforeStarting() {
-
+        serverType = CubeUtil.getServerType();
+        System.setProperty("cube.system.type", serverType);
     }
 
     /**
@@ -110,9 +111,6 @@ public class CubeServerDeployer implements LauncherListener
      */
     @Override
     public void onAfterLoadingYamlFiles(List<URI> yamlFiles) {
-        serverType = CubeUtil.getServerType();
-        System.setProperty("cube.system.type", serverType);
-
         initServer();
 
         initDefaultProperties();
