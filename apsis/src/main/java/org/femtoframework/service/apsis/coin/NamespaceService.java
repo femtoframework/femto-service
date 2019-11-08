@@ -1,7 +1,6 @@
 package org.femtoframework.service.apsis.coin;
 
 import org.femtoframework.coin.*;
-import org.femtoframework.coin.naming.CoinName;
 import org.femtoframework.coin.naming.CoinNamingParser;
 import org.femtoframework.naming.NamingContext;
 import org.femtoframework.naming.NamingService;

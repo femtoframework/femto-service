@@ -1,5 +1,6 @@
 package org.femtoframework.service.apsis.balance;
 
+import org.femtoframework.coin.CoinConstants;
 import org.femtoframework.coin.naming.CoinNamingParser;
 import org.femtoframework.lang.reflect.Reflection;
 import org.femtoframework.service.apsis.balance.rmi.BalanceInterceptor;
@@ -19,7 +20,7 @@ import java.util.HashSet;
  */
 public class BalanceUtil
 {
-    private static CoinNamingParser parser = new CoinNamingParser();
+    private static CoinNamingParser parser = new CoinNamingParser(CoinConstants.CHAR_SLASH);
 
     /**
      * 根据期望类型，接口数组，远程URI产生负载均衡Stub对象

@@ -1,6 +1,7 @@
 package org.femtoframework.service.apsis.rmi;
 
 import org.femtoframework.bean.Nameable;
+import org.femtoframework.coin.CoinConstants;
 import org.femtoframework.coin.CoinUtil;
 import org.femtoframework.coin.ResourceType;
 import org.femtoframework.coin.naming.CoinNamingParser;
@@ -31,7 +32,7 @@ public final class RmiServer
 
     private Logger log = LoggerFactory.getLogger("apsis/rmi_server");
 
-    private CoinNamingParser namingParser = new CoinNamingParser();
+    private CoinNamingParser namingParser = new CoinNamingParser(CoinConstants.CHAR_SLASH);
 
     /**
      * 当消息到达的时候调用
