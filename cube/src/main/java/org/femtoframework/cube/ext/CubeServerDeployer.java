@@ -1,7 +1,6 @@
 package org.femtoframework.cube.ext;
 
 import org.femtoframework.coin.launcher.LauncherListener;
-import org.femtoframework.cube.CubeModule;
 import org.femtoframework.cube.CubeUtil;
 import org.femtoframework.cube.spec.HostSpec;
 import org.femtoframework.cube.spec.ServerSpec;
