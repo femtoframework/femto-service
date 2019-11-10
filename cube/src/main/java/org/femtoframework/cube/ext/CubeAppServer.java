@@ -1,10 +1,8 @@
 package org.femtoframework.cube.ext;
 
-import org.femtoframework.annotation.Resources;
 import org.femtoframework.cube.AppServer;
 import org.femtoframework.cube.Endpoint;
 
-import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,9 +42,6 @@ public class CubeAppServer implements AppServer
      *
      * @param endpoint 接入点
      */
-    @Resources(
-            {@Resource (name = "tcp_endpoint", type = CubeTcpEndpoint.class)}
-    )
     public void addEndpoint(Endpoint endpoint) {
         endpoints.put(endpoint.getName(), endpoint);
     }

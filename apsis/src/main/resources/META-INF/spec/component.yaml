@@ -1,8 +1,4 @@
 apiVersion: apsis/v7
-kind: ApsisServer
-
----
-apiVersion: apsis/v7
 kind: RmiServer
 
 ---
