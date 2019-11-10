@@ -40,6 +40,8 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
 
     private int interval = 10 * 1000;
 
+
+
     /**
      * 启动
      */
