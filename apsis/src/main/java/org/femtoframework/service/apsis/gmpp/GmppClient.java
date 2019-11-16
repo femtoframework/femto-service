@@ -1,7 +1,12 @@
 package org.femtoframework.service.apsis.gmpp;
 
+import io.micrometer.core.instrument.Meter;
+import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
 import org.femtoframework.bean.NamedBean;
+import org.femtoframework.bean.Startable;
 import org.femtoframework.bean.Stoppable;
+import org.femtoframework.bean.info.BeanInfoUtil;
+import org.femtoframework.coin.metrics.MetricsUtil;
 import org.femtoframework.net.gmpp.GmppCommClient;
 import org.femtoframework.service.RemoteClient;
 import org.femtoframework.service.ServerID;
@@ -9,6 +14,8 @@ import org.femtoframework.service.apsis.ApsisClient;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Gmpp客户端
@@ -17,7 +24,7 @@ import java.io.IOException;
  * @version 1.00 2005-5-22 14:00:16
  */
 public class GmppClient extends GmppCommClient
-    implements RemoteClient, Stoppable, ApsisClient, NamedBean, Closeable
+    implements RemoteClient, Stoppable, ApsisClient, NamedBean, Closeable, Startable
 {
 
     public static final String DEFAULT_OBJECT_CODEC = "apsis";
@@ -53,6 +60,19 @@ public class GmppClient extends GmppCommClient
         catch (IOException e) {
             logger.warn("Closing exception", e);
         }
+    }
+
+    public void close() throws IOException {
+        CompositeMeterRegistry registry = MetricsUtil.getDefaultRegistry();
+        if (registry != null) {
+            if (meterIds != null && !meterIds.isEmpty()) {
+                for (Meter.Id id : meterIds) {
+                    registry.remove(id);
+                }
+                meterIds = null;
+            }
+        }
+        super.close();
     }
 
     /**
@@ -105,4 +125,21 @@ public class GmppClient extends GmppCommClient
         }
         return name;
     }
+
+    private List<Meter.Id> meterIds;
+
+    @Override
+    public void start() {
+        if (meterIds == null) {
+            CompositeMeterRegistry registry = MetricsUtil.getDefaultRegistry();
+            if (registry != null) {
+                meterIds = MetricsUtil.registryMetrics(this, BeanInfoUtil.getBeanInfo(GmppClient.class, true));
+                if (meterIds == null) {
+                    meterIds = Collections.emptyList();
+                }
+            }
+        }
+    }
+
+
 }

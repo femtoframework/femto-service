@@ -33,8 +33,7 @@ public class GmppApsisClientFactory implements ApsisClientFactory {
         client.setRemotePort(uri.getPort());
         client.setLogger(LoggerFactory.getLogger(client.getClass()));
         client.init();
-
-        MetricsUtil.registryMetrics(client, BeanInfoUtil.getBeanInfo(GmppClient.class, true));
+        client.start();
 
         return client;
     }
