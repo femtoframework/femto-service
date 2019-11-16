@@ -147,11 +147,13 @@ public class SimpleApsisClientManager extends AbstractClientManager<ApsisClient>
         return 0;
     }
 
+    private GmppApsisClientFactory gmppApsisClientFactory = new GmppApsisClientFactory();
+
     @Override
     public ApsisClient createClient(URI uri) {
         String scheme = uri.getScheme();
         if ("gmpp".equals(scheme)) {
-            return GmppApsisClientFactory.INSTANCE.createClient(uri);
+            return gmppApsisClientFactory.createClient(uri);
         }
         else {
             throw new IllegalArgumentException("Unsupported scheme:" + scheme);

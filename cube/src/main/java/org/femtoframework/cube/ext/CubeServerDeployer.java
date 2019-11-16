@@ -90,6 +90,7 @@ public class CubeServerDeployer implements LauncherListener
     public void onBeforeStarting() {
         serverType = CubeUtil.getServerType();
         System.setProperty("cube.system.type", serverType);
+
     }
 
     /**

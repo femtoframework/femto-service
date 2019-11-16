@@ -1,6 +1,10 @@
 package org.femtoframework.service.apsis.gmpp;
 
 
+import org.femtoframework.bean.BeanStage;
+import org.femtoframework.bean.info.BeanInfoUtil;
+import org.femtoframework.coin.CoinUtil;
+import org.femtoframework.coin.metrics.MetricsUtil;
 import org.femtoframework.service.apsis.ApsisClient;
 import org.femtoframework.service.apsis.ApsisClientFactory;
 import org.slf4j.LoggerFactory;
@@ -13,8 +17,7 @@ import java.net.URI;
  * @author fengyun
  * @version 1.00 2005-7-25 17:36:05
  */
-public enum GmppApsisClientFactory implements ApsisClientFactory {
-    INSTANCE;
+public class GmppApsisClientFactory implements ApsisClientFactory {
 
     /**
      * 创建客户端
@@ -29,6 +32,10 @@ public enum GmppApsisClientFactory implements ApsisClientFactory {
         client.setPort(uri.getPort());
         client.setRemotePort(uri.getPort());
         client.setLogger(LoggerFactory.getLogger(client.getClass()));
+        client.init();
+
+        MetricsUtil.registryMetrics(client, BeanInfoUtil.getBeanInfo(GmppClient.class, true));
+
         return client;
     }
 }

@@ -1,5 +1,7 @@
 package org.femtoframework.service.apsis.gmpp;
 
+import org.femtoframework.bean.info.BeanInfoUtil;
+import org.femtoframework.coin.metrics.MetricsUtil;
 import org.femtoframework.io.IOUtil;
 import org.femtoframework.net.gmpp.GmppConnection;
 import org.femtoframework.net.gmpp.GmppConstants;
@@ -120,6 +122,8 @@ public class GmppSocketHandler
                         gClient.addStatusChangeListener(connector.getStatusChangeListener());
                         gClient.setLogger(log);
                         gClient.init();
+
+                        MetricsUtil.registryMetrics(gClient, BeanInfoUtil.getBeanInfo(GmppClient.class, true));
 
                         client = gClient;
                     }
