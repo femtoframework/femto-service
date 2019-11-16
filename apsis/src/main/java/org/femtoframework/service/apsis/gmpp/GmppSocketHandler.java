@@ -122,8 +122,7 @@ public class GmppSocketHandler
                         gClient.addStatusChangeListener(connector.getStatusChangeListener());
                         gClient.setLogger(log);
                         gClient.init();
-
-                        MetricsUtil.registryMetrics(gClient, BeanInfoUtil.getBeanInfo(GmppClient.class, true));
+                        gClient.start();
 
                         client = gClient;
                     }
