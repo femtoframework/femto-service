@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.femtoframework.net</groupId>
     <artifactId>femto-net</artifactId>
-    <version>7.0.0-SNAPSHOT</version>
+    <version>7.0.0</version>
     <relativePath>../femto-net/pom.xml</relativePath>
   </parent>
 
@@ -16,6 +16,11 @@
   <artifactId>femto-service</artifactId>
   <packaging>pom</packaging>
   <version>7.0.0-SNAPSHOT</version>
+
+  <properties>
+    <coin.version>7.2.0</coin.version>
+    <femto.net.version>7.0.0</femto.net.version>
+  </properties>
 
   <modules>
     <module>cube</module>
@@ -29,7 +34,7 @@
       <dependency>
         <groupId>org.femtoframework.net</groupId>
         <artifactId>femto-gmpp</artifactId>
-        <version>7.0.0-SNAPSHOT</version>
+        <version>${femto.net.version}</version>
       </dependency>
       <dependency>
         <groupId>org.femtoframework.service</groupId>
@@ -54,12 +59,12 @@
       <dependency>
         <groupId>org.femtoframework.coin</groupId>
         <artifactId>coin-core</artifactId>
-        <version>7.1.1-SNAPSHOT</version>
+        <version>${coin.version}</version>
       </dependency>
       <dependency>
         <groupId>org.femtoframework.coin</groupId>
         <artifactId>coin-metrics</artifactId>
-        <version>7.1.1-SNAPSHOT</version>
+        <version>${coin.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
