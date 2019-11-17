@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <parent>
     <groupId>org.femtoframework.net</groupId>
@@ -15,10 +13,10 @@
   <groupId>org.femtoframework.service</groupId>
   <artifactId>femto-service</artifactId>
   <packaging>pom</packaging>
-  <version>7.0.0-SNAPSHOT</version>
+  <version>7.0.0</version>
 
   <properties>
-    <coin.version>7.2.0</coin.version>
+    <coin.version>7.2.1</coin.version>
     <femto.net.version>7.0.0</femto.net.version>
   </properties>
 
@@ -39,22 +37,22 @@
       <dependency>
         <groupId>org.femtoframework.service</groupId>
         <artifactId>femto-cube</artifactId>
-        <version>7.0.0-SNAPSHOT</version>
+        <version>7.0.0</version>
       </dependency>
       <dependency>
         <groupId>org.femtoframework.service</groupId>
         <artifactId>service-spi</artifactId>
-        <version>7.0.0-SNAPSHOT</version>
+        <version>7.0.0</version>
       </dependency>
       <dependency>
         <groupId>org.femtoframework.service</groupId>
         <artifactId>service-rmi</artifactId>
-        <version>7.0.0-SNAPSHOT</version>
+        <version>7.0.0</version>
       </dependency>
       <dependency>
         <groupId>org.femtoframework.service</groupId>
         <artifactId>service-apsis</artifactId>
-        <version>7.0.0-SNAPSHOT</version>
+        <version>7.0.0</version>
       </dependency>
       <dependency>
         <groupId>org.femtoframework.coin</groupId>
