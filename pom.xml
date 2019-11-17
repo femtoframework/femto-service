@@ -13,7 +13,7 @@
   <groupId>org.femtoframework.service</groupId>
   <artifactId>femto-service</artifactId>
   <packaging>pom</packaging>
-  <version>7.0.0</version>
+  <version>7.0.1-SNAPSHOT</version>
 
   <properties>
     <coin.version>7.2.1</coin.version>
@@ -37,22 +37,22 @@
       <dependency>
         <groupId>org.femtoframework.service</groupId>
         <artifactId>femto-cube</artifactId>
-        <version>7.0.0</version>
+        <version>7.0.1-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.femtoframework.service</groupId>
         <artifactId>service-spi</artifactId>
-        <version>7.0.0</version>
+        <version>7.0.1-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.femtoframework.service</groupId>
         <artifactId>service-rmi</artifactId>
-        <version>7.0.0</version>
+        <version>7.0.1-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.femtoframework.service</groupId>
         <artifactId>service-apsis</artifactId>
-        <version>7.0.0</version>
+        <version>7.0.1-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.femtoframework.coin</groupId>
