@@ -6,4 +6,4 @@ With this framework, it is easy to do both Horizontal and Vertical scaling. It h
 Declarative spec was introduced 15 years ago, which it was use XML as the configuration. Now it supports both Yaml and Json.
 
 ### Why it starts from 7.0?
-It was designed so advance since 2004, and the framework had 5 major versions. There was no 4.x.x because 4 is not good Chinese culture.
+It was designed so advance since 2004, and the framework had 5 major versions. There was no 4.x.x because 4 is not good in Chinese culture.
