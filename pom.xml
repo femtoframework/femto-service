@@ -69,4 +69,12 @@
     </dependencies>
   </dependencyManagement>
 
+  <!-- SCM configurations to allow maven updates to source control.
+E.g.: org.apache.maven.plugins:maven-release-plugin can create and update release tags to your git repo -->
+  <scm>
+    <connection>scm:git:git@github.com:femtoframework/femto-service.git</connection>
+    <developerConnection>scm:git:git@github.com:femtoframework/femto-service.git</developerConnection>
+    <url>https://github.com/femtoframework/femto-service.git</url>
+    <tag>v7.0.0</tag>
+  </scm>
 </project>
