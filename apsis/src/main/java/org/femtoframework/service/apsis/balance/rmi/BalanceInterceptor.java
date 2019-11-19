@@ -49,6 +49,8 @@ public class BalanceInterceptor implements InvocationHandler {
 
     /**
      * 服务器标识到Interceptor的影射
+     *
+     * TODO https://github.com/femtoframework/femto-service/issues/2
      */
     private final Map<Long, InvocationHandler> interceptors;
 
@@ -69,7 +71,7 @@ public class BalanceInterceptor implements InvocationHandler {
         this.server = server;
         this.path = path;
         this.balancer = ClientUtil.getBalancer();
-        this.interceptors = new HashMap<Long, InvocationHandler>();
+        this.interceptors = new HashMap<>();
     }
 
     /**
