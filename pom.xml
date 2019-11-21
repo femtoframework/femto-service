@@ -17,7 +17,7 @@
 
   <properties>
     <coin.version>7.2.1</coin.version>
-    <femto.net.version>7.0.0</femto.net.version>
+    <femto.net.version>7.0.1-SNAPSHOT</femto.net.version>
   </properties>
 
   <modules>
