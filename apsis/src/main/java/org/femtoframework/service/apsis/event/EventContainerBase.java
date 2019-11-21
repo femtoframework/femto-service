@@ -1,6 +1,7 @@
 package org.femtoframework.service.apsis.event;
 
 import org.femtoframework.bean.AbstractLifecycle;
+import org.femtoframework.bean.Nameable;
 import org.femtoframework.bean.NamedBean;
 import org.femtoframework.service.Event;
 import org.femtoframework.service.EventChain;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public abstract class EventContainerBase
     extends AbstractLifecycle
-    implements EventValve, EventHandler, GenericEventHandler, NamedBean
+    implements EventValve, EventHandler, GenericEventHandler, NamedBean, Nameable
 {
     private String name;
 
