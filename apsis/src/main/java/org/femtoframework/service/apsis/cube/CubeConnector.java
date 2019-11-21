@@ -123,10 +123,10 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
         }
     }
 
-    protected void connect(String scheme, String ip, int port, ConnectionSpec conn) {
+    protected void connect(String scheme, String ip, int port, ConnectionSpec connectionSpec) {
         ApsisClient client = ClientUtil.getClient(ip, port, false);
         if (client == null || !client.isAlive()) {
-            URI origUri = conn.getUri();
+            URI origUri = connectionSpec.getUri();
             URI uri = null;
             try {
                 uri = new URI(scheme, "", ip, port,origUri.getPath(), origUri.getQuery(),  origUri.getFragment());
@@ -136,19 +136,19 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
 
             client = ClientUtil.createClient(uri);
             if (log.isDebugEnabled()) {
-                log.debug("Connect to " + ip + ':' + port + '#' + conn.getServerType());
+                log.debug("Connect to " + ip + ':' + port + '#' + connectionSpec.getServerType());
             }
 
-            if (!conn.getParameters().isEmpty()) {
+            if (!connectionSpec.getParameters().isEmpty()) {
                 //如果有参数，直接注入给客户
                 BeanInfo beanInfo = BeanInfoUtil.getBeanInfo(client.getClass());
-                Parameters<Object> parameters = conn.getParameters();
+                Parameters<Object> parameters = connectionSpec.getParameters();
                 for(String key: parameters.keySet()) {
                     Object value = parameters.get(key);
                     PropertyInfo propertyInfo = beanInfo.getProperty(key);
-                    if (propertyInfo != null) {
+                    if (propertyInfo != null && propertyInfo.isWritable()) {
                         try {
-                            propertyInfo.invokeSetter(conn, value);
+                            propertyInfo.invokeSetter(client, value);
                         }
                         catch (Exception ex) {
                             log.warn("Set property exception", ex);
