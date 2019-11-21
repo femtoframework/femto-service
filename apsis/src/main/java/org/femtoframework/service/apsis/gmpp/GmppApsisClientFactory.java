@@ -27,9 +27,6 @@ public class GmppApsisClientFactory implements ApsisClientFactory {
         client.setPort(uri.getPort());
         client.setRemotePort(uri.getPort());
         client.setLogger(LoggerFactory.getLogger(client.getClass()));
-        client.init();
-        client.start();
-
         return client;
     }
 }
