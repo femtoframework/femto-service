@@ -52,7 +52,7 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
      */
     public void setServer(Server server) {
         if (!(server instanceof MessageListener)) {
-            throw new IllegalArgumentException("Can't bind a htcp connector to a server without MessageListener");
+            throw new IllegalArgumentException("Can't bind a cube connector to a server without MessageListener");
         }
         messageListener = ((MessageListener)server);
         super.setServer(server);
