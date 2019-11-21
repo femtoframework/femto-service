@@ -11,8 +11,11 @@ import org.femtoframework.cube.spec.ConnectionSpec;
 import org.femtoframework.cube.spec.HostSpec;
 import org.femtoframework.cube.spec.ServerSpec;
 import org.femtoframework.cube.spec.SystemSpec;
+import org.femtoframework.net.message.MessageListener;
+import org.femtoframework.net.message.packet.MessageCommClient;
 import org.femtoframework.parameters.Parameters;
 import org.femtoframework.service.AbstractConnector;
+import org.femtoframework.service.Server;
 import org.femtoframework.service.ServerID;
 import org.femtoframework.service.apsis.ApsisClient;
 import org.femtoframework.service.apsis.ApsisClientManager;
@@ -40,7 +43,20 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
 
     private int interval = 10 * 1000;
 
+    private MessageListener messageListener;
 
+    /**
+     * 设置消息处理服务器
+     *
+     * @param server 服务器
+     */
+    public void setServer(Server server) {
+        if (!(server instanceof MessageListener)) {
+            throw new IllegalArgumentException("Can't bind a htcp connector to a server without MessageListener");
+        }
+        messageListener = ((MessageListener)server);
+        super.setServer(server);
+    }
 
     /**
      * 启动
@@ -137,6 +153,10 @@ public class CubeConnector extends AbstractConnector implements Startable, Runna
             client = ClientUtil.createClient(uri);
             if (log.isDebugEnabled()) {
                 log.debug("Connect to " + ip + ':' + port + '#' + connectionSpec.getServerType());
+            }
+
+            if (messageListener != null && client instanceof MessageCommClient) {
+                ((MessageCommClient)client).setMessageListener(messageListener);
             }
 
             if (!connectionSpec.getParameters().isEmpty()) {

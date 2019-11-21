@@ -41,7 +41,7 @@ public class GmppSocketHandler
      */
     private final ApsisClientManager clientMap;
 
-    private byte[] supportedVersions = new byte[]{GmppConstants.VERSION};
+    private byte[] supportedVersions = new byte[]{GmppConstants.VERSION, GmppConstants.VERSION_3};
 
     private HashSet<String> supportedCodecs = new HashSet<String>();
 
