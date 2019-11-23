@@ -49,6 +49,8 @@ public class GmppSocketHandler
 
     private GmppConnector connector;
 
+    private String secure = "";
+
     /**
      * 支持JRMP和NIEP
      */
@@ -82,6 +84,7 @@ public class GmppSocketHandler
         try {
             conn.setProtocol(packetProtocol);
             conn.setSocket(socket);
+            conn.setSecure(secure);
             conn.accept(supportedVersions, supportedCodecs);
         }
         catch (Throwable t) {
@@ -263,5 +266,12 @@ public class GmppSocketHandler
         }
     }
 
+    public String getSecure() {
+        return secure;
+    }
+
+    public void setSecure(String secure) {
+        this.secure = secure;
+    }
 }
 

@@ -38,6 +38,7 @@ public class GmppConnector extends AbstractConnector
 
     private String supportVersions;
     private String supportCodecs;
+    private String secure = "";
 
     /**
      * 返回消息侦听者
@@ -81,6 +82,7 @@ public class GmppConnector extends AbstractConnector
         socketHandler = new GmppSocketHandler(this);
         socketHandler.setLogger(logger);
         socketHandler.setDaemon(daemon);
+        socketHandler.setSecure(secure);
 
         if (supportCodecs != null) {
             socketHandler.setSupportedCodecs(supportCodecs);
@@ -190,5 +192,13 @@ public class GmppConnector extends AbstractConnector
 
     public void setSupportCodecs(String supportCodecs) {
         this.supportCodecs = supportCodecs;
+    }
+
+    public String getSecure() {
+        return secure;
+    }
+
+    public void setSecure(String secure) {
+        this.secure = secure;
     }
 }
